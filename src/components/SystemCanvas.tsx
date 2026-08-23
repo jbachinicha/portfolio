@@ -3,15 +3,15 @@
 import { motion, useReducedMotion } from "motion/react";
 
 const inputs = [
-  { label: "Forms", y: 90 },
-  { label: "Inbox", y: 200 },
-  { label: "APIs", y: 310 },
+  { label: "Forms", y: 90, endY: 186 },
+  { label: "Inbox", y: 200, endY: 172 },
+  { label: "APIs", y: 310, endY: 214 },
 ];
 
 const outputs = [
-  { label: "Dashboards", y: 90 },
-  { label: "AI support", y: 200 },
-  { label: "CRM sync", y: 310 },
+  { label: "Dashboards", y: 90, startY: 186 },
+  { label: "AI support", y: 200, startY: 228 },
+  { label: "CRM sync", y: 310, startY: 214 },
 ];
 
 /**
@@ -47,7 +47,7 @@ export function SystemCanvas() {
             <stop offset="100%" stopColor="var(--color-accent-3)" stopOpacity="0.2" />
           </linearGradient>
           <radialGradient id="coreGlow">
-            <stop offset="0%" stopColor="var(--color-accent)" stopOpacity="0.35" />
+            <stop offset="0%" stopColor="var(--color-accent)" stopOpacity="0.22" />
             <stop offset="100%" stopColor="var(--color-accent)" stopOpacity="0" />
           </radialGradient>
         </defs>
@@ -56,13 +56,13 @@ export function SystemCanvas() {
         {inputs.map((n, i) => (
           <g key={n.label}>
             <path
-              d={`M110 ${n.y} C 158 ${n.y}, 168 200, 208 200`}
+              d={`M110 ${n.y} C 158 ${n.y}, 168 ${n.endY}, 206 ${n.endY}`}
               fill="none"
               stroke="var(--color-line)"
               strokeWidth="1.5"
             />
             <path
-              d={`M110 ${n.y} C 158 ${n.y}, 168 200, 208 200`}
+              d={`M110 ${n.y} C 158 ${n.y}, 168 ${n.endY}, 206 ${n.endY}`}
               fill="none"
               stroke="url(#edge)"
               strokeWidth="1.5"
@@ -77,13 +77,13 @@ export function SystemCanvas() {
         {outputs.map((n, i) => (
           <g key={n.label}>
             <path
-              d={`M312 200 C 352 200, 362 ${n.y}, 410 ${n.y}`}
+              d={`M314 ${n.startY} C 352 ${n.startY}, 362 ${n.y}, 400 ${n.y}`}
               fill="none"
               stroke="var(--color-line)"
               strokeWidth="1.5"
             />
             <path
-              d={`M312 200 C 352 200, 362 ${n.y}, 410 ${n.y}`}
+              d={`M314 ${n.startY} C 352 ${n.startY}, 362 ${n.y}, 400 ${n.y}`}
               fill="none"
               stroke="url(#edge2)"
               strokeWidth="1.5"
@@ -125,10 +125,10 @@ export function SystemCanvas() {
             strokeOpacity="0.55"
             strokeWidth="1.5"
           />
-          <text x="260" y="194" textAnchor="middle" fill="#eef1f5" fontSize="13" fontWeight="600">
+          <text x="260" y="205" textAnchor="middle" fill="#eef1f5" fontSize="13" fontWeight="600">
             Orchestration
           </text>
-          <text x="260" y="212" textAnchor="middle" fill="#8d96a3" fontSize="11" fontFamily="var(--font-mono)">
+          <text x="260" y="278" textAnchor="middle" fill="#8d96a3" fontSize="11" fontFamily="var(--font-mono)">
             rules · AI · retries
           </text>
         </motion.g>
@@ -141,9 +141,9 @@ export function SystemCanvas() {
             animate={reduced ? undefined : { opacity: 1, x: 0 }}
             transition={{ delay: 0.55 + i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <rect x="410" y={n.y - 18} width="106" height="36" rx="10" fill="#0e1117" stroke="var(--color-line)" />
-            <circle cx="430" cy={n.y} r="3" fill="var(--color-accent-2)" />
-            <text x="444" y={n.y + 4} fill="#8d96a3" fontSize="12" fontFamily="var(--font-mono)">
+            <rect x="400" y={n.y - 18} width="116" height="36" rx="10" fill="#0e1117" stroke="var(--color-line)" />
+            <circle cx="420" cy={n.y} r="3" fill="var(--color-accent-2)" />
+            <text x="434" y={n.y + 4} fill="#8d96a3" fontSize="12" fontFamily="var(--font-mono)">
               {n.label}
             </text>
           </motion.g>
