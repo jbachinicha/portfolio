@@ -4,7 +4,7 @@ Personal site for a full-stack developer specialising in automation, report
 streamlining, AI customer support systems and tool integrations.
 
 Built with **Next.js 16** (App Router, static export), **TypeScript**,
-**Tailwind CSS v4** and **Motion**. Deployed to **Cloudflare Pages**.
+**Tailwind CSS v4** and **Motion**. Deployed to **GitHub Pages**.
 
 ## Editing your content
 
@@ -62,50 +62,61 @@ npm run build
 
 Static HTML is emitted to `out/`.
 
-## Deploying to Cloudflare Pages (free, works with a private repo)
+## Deploying to GitHub Pages
 
-1. In the Cloudflare dashboard: **Workers & Pages → Create → Pages → Connect to Git**,
-   then pick this repo and authorise the GitHub app.
-2. Build settings:
-   - Framework preset: **None**
-   - Build command: `npm run build`
-   - Build output directory: `out`
-3. Environment variable (Production): `NEXT_PUBLIC_SITE_URL` set to the site's
-   public URL, for example `https://your-project.pages.dev`. Leave
-   `NEXT_PUBLIC_BASE_PATH` unset; the site is served from the root.
-4. Save and deploy. Every push to `main` redeploys.
+The repo is public and Pages is set to **Source: GitHub Actions**.
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) builds and
+publishes on every push to `main`. It can also be run by hand from the Actions
+tab. Live at https://jbachinicha.github.io/portfolio/.
 
-`NEXT_PUBLIC_SITE_URL` feeds the canonical tag, the social card and
-`sitemap.xml`. A build on a hosted server without it fails on purpose, because
-a canonical pointing at localhost stops Google indexing the page. If you add a
-custom domain later, change the variable to the new URL and redeploy.
+The workflow sets two environment variables automatically:
 
-### Getting indexed
+- `NEXT_PUBLIC_SITE_URL`: the Pages URL, used for canonical links, the
+  generated social card at `/og.png`, and `sitemap.xml`
+- `NEXT_PUBLIC_BASE_PATH`: the sub-path assets are served from. A project site
+  (`github.com/you/portfolio`) is served at `/portfolio`; a user site
+  (`github.com/you/you.github.io`) is served at `/` with an empty base path.
 
-1. Open [Google Search Console](https://search.google.com/search-console) and add
-   the site as a **URL prefix** property (use the exact public URL).
-2. Verify ownership (the DNS or HTML-tag method), then **Sitemaps → add
-   `sitemap.xml`** and use **URL Inspection → Request indexing** for the home page.
-3. Optional: do the same in [Bing Webmaster Tools](https://www.bing.com/webmasters).
+A build on a hosted server without `NEXT_PUBLIC_SITE_URL` fails on purpose,
+because a canonical tag pointing at localhost stops Google indexing the page.
 
-Indexing is not instant; first appearance usually takes days to a few weeks.
-
-### GitHub Pages (optional)
-
-The workflow in [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) is
-manual-only (`workflow_dispatch`). GitHub Pages cannot serve a private repo on a
-free plan, so it only works if the repo is public: enable **Settings → Pages →
-Source: GitHub Actions**, then run it from the Actions tab. It sets
-`NEXT_PUBLIC_SITE_URL` and `NEXT_PUBLIC_BASE_PATH` itself. To preview a
-sub-path build locally:
+To preview the project-site path locally:
 
 ```bash
 NEXT_PUBLIC_BASE_PATH=/portfolio npm run build
 ```
 
+### Getting indexed
+
+1. Open [Google Search Console](https://search.google.com/search-console) and add
+   the site as a **URL prefix** property for the exact public URL. DNS
+   verification is not possible on `github.io`, so use the **HTML tag** or
+   **HTML file** method.
+2. **Sitemaps → add `sitemap.xml`**, then **URL Inspection → Request indexing**
+   for the home page. Crawlers only read `robots.txt` at the domain root, which a
+   project site does not control, so the sitemap must be submitted directly.
+3. Optional: do the same in [Bing Webmaster Tools](https://www.bing.com/webmasters).
+
+Indexing is not instant; first appearance usually takes days to a few weeks.
+
+### A stronger address
+
+A sub-path on `github.io` is the weakest possible URL. Renaming the repo to
+`<username>.github.io` serves the site from the root (the workflow detects this
+and clears the base path), and a custom domain is better still: add it in
+**Settings → Pages**, create `public/CNAME` containing the domain, and the
+workflow will serve from `/`.
+
+### Cloudflare Pages (alternative)
+
+The site is a plain static export, so any static host works. On Cloudflare
+Pages use build command `npm run build`, output directory `out`, and set
+`NEXT_PUBLIC_SITE_URL` to the site's public URL, leaving
+`NEXT_PUBLIC_BASE_PATH` unset.
+
 ## Notes
 
-- `public/.nojekyll` only matters for the optional GitHub Pages route.
+- `public/.nojekyll` stops GitHub Pages from stripping Next.js `_next/` assets.
 - The site is a single light theme built around a "printed run sheet" idea.
   Every colour is a token at the top of `src/app/globals.css`. To re-colour the
   whole site change the four `--color-primary*` values (and the matching hex
