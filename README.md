@@ -14,7 +14,7 @@ Everything personal lives in one file: [`src/content/site.ts`](src/content/site.
 | ------------- | ------------------------------------------------------- |
 | `site`        | Name, role, intro, email, location, social links        |
 | `metrics`     | The four animated counters                              |
-| `pillars`     | The four capability cards (copy, bullets, tech chips)   |
+| `pillars`     | The four capability rows (copy, bullets, tools)         |
 | `stackLayers` | Full-stack section: frontend / backend / data / platform |
 | `process`     | The four-step "how I work" row                          |
 | `projects`    | Selected work cards                                     |
@@ -92,8 +92,14 @@ domain, and set `NEXT_PUBLIC_BASE_PATH` to empty in the workflow.
 ## Notes
 
 - `public/.nojekyll` stops GitHub Pages from stripping Next.js `_next/` assets.
-- The site is intentionally dark-only; `prefers-reduced-motion` disables all
-  animation via `src/app/globals.css`.
+- The site is a single light theme built around a "printed run sheet" idea.
+  Every colour is a token at the top of `src/app/globals.css`. To re-colour the
+  whole site change the four `--color-primary*` values (and the matching hex
+  values in `src/app/og.png/route.tsx` and `src/app/icon.svg`).
+- Fonts: Bricolage Grotesque (headlines), Instrument Sans (body) and IBM Plex
+  Mono (only inside the hero run sheet), all self-hosted by `next/font`.
+- `prefers-reduced-motion` disables all animation via `src/app/globals.css`;
+  the hero run sheet then renders in its finished state.
 - `/og.png` is generated at build time from `src/app/og.png/route.tsx`. It sits
   at a `.png` path on purpose, so static hosts serve it as an image rather than
   as `application/octet-stream`.

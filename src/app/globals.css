@@ -1,64 +1,89 @@
 @import "tailwindcss";
 
+/*
+ * Palette: a printed run sheet. Cool paper, deep-green ink, one bottle-green
+ * field (the greenbar paper reports used to print on), and a highlighter that
+ * only ever marks "done" or "what you get".
+ *
+ * To re-colour the whole site, change the four --color-primary* values.
+ */
 @theme {
-  /* Surfaces */
-  --color-ink: #06070a;
-  --color-ink-2: #0a0c11;
-  --color-panel: #0e1117;
-  --color-line: #1b2029;
+  --color-paper: #f3f6f3;
+  --color-sheet: #ffffff;
+  --color-ink: #0c1a14;
+  --color-ink-soft: #364840;
+  --color-muted: #566860;
+  --color-rule: #cbd6cf;
 
-  /* Text */
-  --color-fg: #eef1f5;
-  --color-fg-muted: #8d96a3;
-  --color-fg-dim: #5c657333;
+  --color-primary: #0a7350;
+  --color-primary-deep: #075a3d;
+  --color-primary-wash: #e0f1e8;
+  --color-primary-mid: #aedcc7;
+  --color-mark: #f6eb4a;
 
-  /* Signal accents */
-  --color-accent: #34e3c2;
-  --color-accent-2: #b7f24e;
-  --color-accent-3: #7c6cff;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --animate-print: print 1.3s cubic-bezier(0.3, 0.7, 0.2, 1) 0.15s backwards;
+  --animate-tick: tick 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
+  --animate-ink-in: ink-in 0.45s ease-out both;
+  --animate-sweep: sweep 0.55s cubic-bezier(0.5, 0, 0.2, 1) both;
 
-  --animate-marquee: marquee 42s linear infinite;
+  --animate-queue: queue 4.8s ease-in-out infinite;
+  --animate-grow: grow 4s ease-in-out infinite;
+  --animate-typing: typing 1.3s ease-in-out infinite;
   --animate-flow: flow 3s linear infinite;
-  --animate-float: float 7s ease-in-out infinite;
-  --animate-pulse-ring: pulse-ring 2.8s ease-out infinite;
-  --animate-drift: drift 22s ease-in-out infinite alternate;
-  --animate-blink: blink 1.15s steps(2, start) infinite;
+  --animate-orbit: orbit 28s linear infinite;
 }
 
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+/* Hero run sheet: the page's one orchestrated moment. */
+@keyframes print {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(-14px); }
+  to { clip-path: inset(0 0 0 0); transform: translateY(0); }
+}
+@keyframes tick {
+  from { opacity: 0; transform: scale(0.4); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes ink-in {
+  from { color: var(--color-rule); }
+}
+@keyframes sweep {
+  from { background-size: 0% 0.74em; }
+  to { background-size: 100% 0.74em; }
+}
+
+/* Capability specimens: still at rest, alive on hover. */
+@keyframes queue {
+  0%, 8% { opacity: 0.3; transform: translateX(-4px); }
+  22%, 78% { opacity: 1; transform: translateX(0); }
+  92%, 100% { opacity: 0.3; transform: translateX(-4px); }
+}
+@keyframes grow {
+  0%, 100% { transform: scaleY(0.3); }
+  45%, 65% { transform: scaleY(1); }
+}
+@keyframes typing {
+  0%, 100% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-3px); }
 }
 @keyframes flow {
-  from { stroke-dashoffset: 24; }
+  from { stroke-dashoffset: 18; }
   to { stroke-dashoffset: 0; }
 }
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-@keyframes pulse-ring {
-  0% { transform: scale(0.7); opacity: 0.7; }
-  80%, 100% { transform: scale(1.9); opacity: 0; }
-}
-@keyframes drift {
-  from { transform: translate3d(-4%, -2%, 0) scale(1); }
-  to { transform: translate3d(5%, 4%, 0) scale(1.15); }
-}
-@keyframes blink {
-  to { opacity: 0; }
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+  --focus: var(--color-primary);
 }
 
 * {
-  border-color: var(--color-line);
+  border-color: var(--color-rule);
 }
 
 html {
@@ -67,76 +92,105 @@ html {
 }
 
 body {
-  background-color: var(--color-ink);
-  color: var(--color-fg);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-::selection {
-  background: color-mix(in oklab, var(--color-accent) 35%, transparent);
-  color: #fff;
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  text-wrap: balance;
 }
 
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--color-ink); }
-::-webkit-scrollbar-thumb {
-  background: #232a34;
-  border-radius: 9999px;
-  border: 2px solid var(--color-ink);
+::selection {
+  background: var(--color-mark);
+  color: var(--color-ink);
 }
-::-webkit-scrollbar-thumb:hover { background: #313a46; }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+/* Sections painted in the primary colour flip the focus ring to the highlighter. */
+@utility on-primary {
+  --focus: var(--color-mark);
 }
 
 @utility container-page {
   width: 100%;
   margin-inline: auto;
-  max-width: 78rem;
-  padding-inline: 1.25rem;
+  max-width: 80rem;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
 }
 
-@utility glass {
-  background: linear-gradient(
-    160deg,
-    color-mix(in oklab, #ffffff 5%, transparent),
-    color-mix(in oklab, #ffffff 1.5%, transparent)
-  );
-  border: 1px solid color-mix(in oklab, #ffffff 8%, transparent);
-  backdrop-filter: blur(14px);
-}
-
-@utility text-gradient {
+/* Highlighter pen laid over text. Wraps cleanly across lines. */
+@utility mark {
   background-image: linear-gradient(
-    100deg,
-    var(--color-accent) 0%,
-    color-mix(in oklab, var(--color-accent) 40%, var(--color-accent-2)) 45%,
-    var(--color-accent-2) 100%
+    97deg,
+    transparent 0,
+    var(--color-mark) 1.5%,
+    var(--color-mark) 98%,
+    transparent 100%
   );
-  background-clip: text;
-  color: transparent;
+  background-repeat: no-repeat;
+  background-size: 100% 0.74em;
+  background-position: 0 90%;
+  padding-inline: 0.18em;
+  margin-inline: -0.18em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  color: var(--color-ink);
 }
 
-@utility hairline {
-  background-image: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in oklab, #ffffff 14%, transparent),
-    transparent
+/* Ledger ruling used behind illustrations. */
+@utility ruled {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 23px,
+    color-mix(in oklab, var(--color-primary) 9%, transparent) 23px,
+    color-mix(in oklab, var(--color-primary) 9%, transparent) 24px
   );
 }
 
-/* Faint dotted engineering grid used behind sections */
-@utility grid-bg {
-  background-image:
-    linear-gradient(to right, color-mix(in oklab, #ffffff 4%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, #ffffff 4%, transparent) 1px, transparent 1px);
-  background-size: 64px 64px;
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 8px;
+  padding: 0.85rem 1.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+@utility btn-mark {
+  background: var(--color-mark);
+  color: var(--color-ink);
+  &:hover { background: #fff36b; transform: translateY(-1px); }
+}
+@utility btn-ghost-light {
+  border: 1.5px solid color-mix(in oklab, #fff 55%, transparent);
+  color: #fff;
+  &:hover { background: #fff; color: var(--color-primary); border-color: #fff; }
+}
+@utility btn-ink {
+  background: var(--color-ink);
+  color: #fff;
+  &:hover { background: var(--color-primary); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -145,38 +199,9 @@ body {
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    transition-delay: 0s !important;
   }
-}
-
-/* ── Capability card micro-animations ───────────────────────────── */
-@theme {
-  --animate-queue: queue 5.2s ease-in-out infinite;
-  --animate-grow: grow 4.4s ease-in-out infinite;
-  --animate-typing: typing 1.3s ease-in-out infinite;
-  --animate-sweep: sweep 3.6s ease-in-out infinite;
-  --animate-orbit: orbit 24s linear infinite;
-}
-
-@keyframes queue {
-  0%, 8% { opacity: 0.25; transform: translateX(-4px); }
-  22%, 78% { opacity: 1; transform: translateX(0); }
-  92%, 100% { opacity: 0.25; transform: translateX(-4px); }
-}
-@keyframes grow {
-  0%, 100% { transform: scaleY(0.25); }
-  45%, 65% { transform: scaleY(1); }
-}
-@keyframes typing {
-  0%, 100% { opacity: 0.25; transform: translateY(0); }
-  50% { opacity: 1; transform: translateY(-3px); }
-}
-@keyframes sweep {
-  0% { transform: translateX(-110%); }
-  55%, 100% { transform: translateX(210%); }
-}
-@keyframes orbit {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }

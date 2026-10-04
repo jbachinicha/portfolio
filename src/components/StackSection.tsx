@@ -1,65 +1,54 @@
 import { stackLayers } from "@/content/site";
-import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
+
+const builds = ["Web apps", "Internal tools", "Client portals", "Dashboards", "APIs", "Mobile apps"];
+
+/**
+ * The stack drawn as a cross-section: interface on top, platform underneath,
+ * each layer a deeper shade than the one it rests on.
+ */
+const tones = [
+  { box: "bg-sheet text-ink", hint: "text-ink-soft", chip: "border-ink/20 bg-paper" },
+  { box: "bg-primary-wash text-ink", hint: "text-ink-soft", chip: "border-ink/15 bg-white/70" },
+  { box: "bg-primary-mid text-ink", hint: "text-ink-soft", chip: "border-ink/15 bg-white/55" },
+  { box: "bg-primary text-white", hint: "text-white/85", chip: "border-white/35 bg-white/10" },
+] as const;
 
 export function StackSection() {
   return (
-    <section id="stack" className="scroll-mt-24 border-y border-line/70 bg-ink-2/30 py-20 sm:py-28">
+    <section id="stack" className="scroll-mt-16 py-24 sm:py-28">
       <div className="container-page">
-        <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
           <div>
             <SectionHeading
-              eyebrow="Full-stack"
-              title={
-                <>
-                  Automation is only useful if someone can <span className="text-gradient">actually use it</span>
-                </>
-              }
+              title="Automation is only useful if someone can actually use it"
               lead="So I build the whole thing: the interface people log into, the API behind it, the database underneath, and the deployment that keeps it running. One person, no hand-off gaps."
             />
 
-            <Reveal delay={0.15}>
-              <div className="mt-8 flex flex-wrap gap-2">
-                {["Web apps", "Internal tools", "Client portals", "Dashboards", "APIs", "Mobile"].map(
-                  (t) => (
-                    <span
-                      key={t}
-                      className="glass rounded-full px-3 py-1.5 text-[12.5px] text-fg-muted"
-                    >
-                      {t}
-                    </span>
-                  ),
-                )}
-              </div>
-            </Reveal>
+            <ul className="mt-10 grid max-w-[32rem] grid-cols-2 gap-x-8">
+              {builds.map((b) => (
+                <li key={b} className="border-t py-3 text-[1.0625rem] font-medium text-ink">
+                  {b}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <div className="space-y-3">
+          <div className="self-start overflow-hidden rounded-lg border">
             {stackLayers.map((layer, i) => (
-              <Reveal key={layer.label} delay={i * 0.07}>
-                <div className="group glass relative overflow-hidden rounded-xl p-5 transition-colors duration-500 hover:border-accent/25">
-                  <div className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-accent/60 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  <div className="flex items-baseline justify-between gap-4">
-                    <h3 className="font-display text-[15px] font-semibold tracking-tight">
-                      {layer.label}
-                    </h3>
-                    <span className="font-mono text-[10px] tracking-[0.16em] text-fg-muted uppercase">
-                      {`0${i + 1}`}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-[12.5px] text-fg-muted">{layer.hint}</p>
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {layer.items.map((item) => (
-                      <span
-                        key={item}
-                        className="rounded-md border border-line bg-ink/60 px-2 py-1 font-mono text-[10.5px] text-fg-muted transition-colors group-hover:border-line group-hover:text-fg"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
+              <div key={layer.label} className={`${tones[i].box} px-6 py-6 sm:px-7`}>
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
+                  <h3 className="text-[1.35rem] font-bold tracking-[-0.02em]">{layer.label}</h3>
+                  <p className={`text-[15px] ${tones[i].hint}`}>{layer.hint}</p>
                 </div>
-              </Reveal>
+                <ul className="mt-4 flex flex-wrap gap-2 text-[15px] font-medium">
+                  {layer.items.map((item) => (
+                    <li key={item} className={`rounded-md border px-2.5 py-1 ${tones[i].chip}`}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
           </div>
         </div>

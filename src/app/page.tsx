@@ -1,4 +1,3 @@
-import { Backdrop } from "@/components/Backdrop";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { ToolStrip } from "@/components/ToolStrip";
@@ -13,7 +12,6 @@ import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
     <>
-      <Backdrop />
       <Nav />
       <main>
         <Hero />

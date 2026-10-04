@@ -34,31 +34,29 @@ function Counter({ to, suffix }: { to: number; suffix: string }) {
   return (
     <span ref={ref} className="tabular-nums">
       {value}
-      {suffix}
+      <span className="text-primary">{suffix}</span>
     </span>
   );
 }
 
 export function Metrics() {
   return (
-    <section className="py-14 sm:py-16">
+    <section className="py-14 sm:py-20">
       <div className="container-page">
-        <div className="glass grid gap-px overflow-hidden rounded-2xl sm:grid-cols-2 lg:grid-cols-4">
+        {/* The double rule is the accountant's mark for a total. */}
+        <div className="grid border-t-[6px] border-double border-ink sm:grid-cols-2 lg:grid-cols-4 lg:divide-x">
           {metrics.map((m) => (
-            <div key={m.label} className="relative p-6 sm:p-7">
-              <div className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-                <span className="text-gradient">
-                  <Counter to={m.value} suffix={m.suffix} />
-                </span>
+            <div key={m.label} className="py-8 lg:px-7 lg:first:pl-0 lg:last:pr-0">
+              <div className="font-display text-[clamp(3.2rem,6vw,4.75rem)] leading-none font-extrabold tracking-[-0.045em]">
+                <Counter to={m.value} suffix={m.suffix} />
               </div>
-              <p className="mt-2.5 text-[13px] leading-snug font-medium text-fg">{m.label}</p>
-              <p className="mt-1 text-[12px] text-fg-muted">{m.sub}</p>
-              <div className="absolute inset-y-6 right-0 w-px bg-line/70 last:hidden max-lg:hidden" />
+              <p className="mt-4 text-[1.0625rem] leading-snug font-semibold text-ink">{m.label}</p>
+              <p className="mt-1 text-[15px] text-muted">{m.sub}</p>
             </div>
           ))}
         </div>
-        <p className="mt-3 text-center font-mono text-[10.5px] tracking-wide text-fg-muted">
-          indicative figures from client workflows, happy to walk through specifics
+        <p className="mt-2 text-[14px] text-muted">
+          Indicative figures from client workflows. Happy to walk through the specifics.
         </p>
       </div>
     </section>

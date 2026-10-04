@@ -1,39 +1,20 @@
-import type { ReactNode } from "react";
-import { Reveal } from "./Reveal";
-
 type Props = {
-  eyebrow: string;
-  title: ReactNode;
+  title: string;
   lead?: string;
-  align?: "left" | "center";
+  className?: string;
 };
 
-export function SectionHeading({ eyebrow, title, lead, align = "left" }: Props) {
-  const centered = align === "center";
-
+/** Plain heading and lead. The type does the work; nothing sits above it. */
+export function SectionHeading({ title, lead, className = "" }: Props) {
   return (
-    <div className={centered ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-      <Reveal>
-        <div
-          className={`flex items-center gap-3 ${centered ? "justify-center" : ""}`}
-        >
-          <span className="h-px w-8 bg-accent/60" />
-          <span className="font-mono text-[11px] tracking-[0.22em] text-accent uppercase">
-            {eyebrow}
-          </span>
-        </div>
-      </Reveal>
-      <Reveal delay={0.06}>
-        <h2 className="font-display mt-4 text-3xl leading-[1.1] font-semibold tracking-tight text-balance sm:text-4xl md:text-[2.75rem]">
-          {title}
-        </h2>
-      </Reveal>
+    <div className={`max-w-[44rem] ${className}`}>
+      <h2 className="text-[clamp(2.1rem,4.6vw,3.5rem)] leading-[1.02] font-bold tracking-[-0.035em]">
+        {title}
+      </h2>
       {lead ? (
-        <Reveal delay={0.12}>
-          <p className="mt-4 text-[15px] leading-relaxed text-fg-muted text-pretty sm:text-base">
-            {lead}
-          </p>
-        </Reveal>
+        <p className="mt-5 max-w-[38rem] text-[1.125rem] leading-[1.65] text-ink-soft text-pretty">
+          {lead}
+        </p>
       ) : null}
     </div>
   );

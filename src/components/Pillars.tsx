@@ -1,74 +1,66 @@
 import { pillars } from "@/content/site";
 import { PillarVisual } from "./visuals";
-import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
+
+function Check() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      className="mt-[5px] h-4 w-4 shrink-0 text-primary"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M3 8.5l3.2 3.2L13 4.8" />
+    </svg>
+  );
+}
 
 export function Pillars() {
   return (
-    <section id="capabilities" className="scroll-mt-24 py-20 sm:py-28">
+    <section id="capabilities" className="scroll-mt-16 bg-sheet py-24 sm:py-32">
       <div className="container-page">
         <SectionHeading
-          eyebrow="Capabilities"
-          title={
-            <>
-              Four kinds of work, one <span className="text-gradient">underlying idea</span>
-            </>
-          }
+          title="Four kinds of work, one underlying idea"
           lead="Find the repetitive, error-prone parts of a business and replace them with software that runs quietly, tells you when something breaks, and hands the interesting decisions back to people."
         />
 
-        <div className="mt-16 space-y-6">
-          {pillars.map((p, i) => (
-            <Reveal key={p.id} delay={i * 0.05}>
-              <article className="group glass relative overflow-hidden rounded-2xl transition-colors duration-500 hover:border-accent/25">
-                {/* Sheen on hover */}
-                <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
-                  <div className="absolute inset-x-0 top-0 h-px hairline" />
-                  <div className="absolute -inset-x-10 -top-24 h-48 bg-accent/6 blur-3xl" />
-                </div>
+        {/* One heavy rule opens the ledger; each capability is a row beneath it. */}
+        <div className="mt-16 border-t-[3px] border-ink">
+          {pillars.map((p) => (
+            <article
+              key={p.id}
+              className="group grid gap-8 border-b py-12 lg:grid-cols-12 lg:gap-14 lg:py-14"
+            >
+              <div className="lg:sticky lg:top-24 lg:col-span-5 lg:self-start">
+                <h3 className="text-[clamp(1.85rem,3vw,2.5rem)] leading-[1.05] font-bold tracking-[-0.03em]">
+                  {p.title}
+                </h3>
+                <p className="mt-5 max-w-[34rem] text-[1.0625rem] leading-[1.65] text-ink-soft text-pretty">
+                  {p.blurb}
+                </p>
+              </div>
 
-                <div
-                  className={`relative grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.35fr_1fr] lg:items-center lg:gap-12 ${
-                    i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-baseline gap-3">
-                      <span className="font-mono text-[11px] text-accent">{p.eyebrow}</span>
-                      <h3 className="font-display text-xl font-semibold tracking-tight sm:text-2xl">
-                        {p.title}
-                      </h3>
-                    </div>
+              <div className="lg:col-span-7">
+                <PillarVisual kind={p.visual} />
 
-                    <p className="mt-3 max-w-xl text-[14.5px] leading-relaxed text-fg-muted text-pretty">
-                      {p.blurb}
-                    </p>
+                <ul className="mt-7 grid gap-x-10 sm:grid-cols-2">
+                  {p.bullets.map((b) => (
+                    <li key={b} className="flex gap-3 border-t py-3 text-[15.5px] leading-snug text-ink-soft">
+                      <Check />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
 
-                    <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
-                      {p.bullets.map((b) => (
-                        <li key={b} className="flex gap-2.5 text-[13px] leading-snug text-fg-muted">
-                          <span className="mt-[6px] h-1 w-1 shrink-0 rounded-full bg-accent" />
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-6 flex flex-wrap gap-1.5">
-                      {p.stack.map((s) => (
-                        <span
-                          key={s}
-                          className="rounded-md border border-line bg-ink-2/70 px-2 py-1 font-mono text-[10.5px] text-fg-muted"
-                        >
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <PillarVisual kind={p.visual} />
-                </div>
-              </article>
-            </Reveal>
+                <p className="mt-3 border-t pt-4 text-[15px] leading-snug text-muted">
+                  <span className="font-semibold text-ink">Tools:</span> {p.stack.join(", ")}
+                </p>
+              </div>
+            </article>
           ))}
         </div>
       </div>

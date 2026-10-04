@@ -1,42 +1,32 @@
 import { process } from "@/content/site";
-import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
+/**
+ * The only numbered section, because it is the only real sequence. Each
+ * step's rule fills a little further, so progress is readable without the
+ * numerals.
+ */
 export function Process() {
   return (
-    <section id="process" className="scroll-mt-24 py-20 sm:py-28">
+    <section id="process" className="scroll-mt-16 bg-sheet py-24 sm:py-32">
       <div className="container-page">
         <SectionHeading
-          eyebrow="How I work"
-          title={
-            <>
-              Small slices, shipped early, <span className="text-gradient">measured honestly</span>
-            </>
-          }
+          title="Small slices, shipped early, measured honestly"
           lead="No six-week discovery phase before anything works. We find the most expensive manual step and remove it first."
-          align="center"
         />
 
-        <ol className="relative mt-16 grid gap-8 md:grid-cols-4 md:gap-6">
-          {/* Connector rail */}
-          <div className="pointer-events-none absolute top-4 right-0 left-0 hidden h-px bg-gradient-to-r from-transparent via-line to-transparent md:block" />
-
+        <ol className="mt-16 grid gap-12 md:grid-cols-4 md:gap-8">
           {process.map((s, i) => (
-            <Reveal key={s.step} delay={i * 0.08}>
-              <li className="relative">
-                <div className="flex items-center gap-3 md:block">
-                  <span className="relative z-10 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-accent/40 bg-ink font-mono text-[11px] text-accent">
-                    {s.step}
-                  </span>
-                  <h3 className="font-display text-[15px] font-semibold tracking-tight md:mt-5">
-                    {s.title}
-                  </h3>
-                </div>
-                <p className="mt-3 text-[13.5px] leading-relaxed text-fg-muted text-pretty">
-                  {s.body}
-                </p>
-              </li>
-            </Reveal>
+            <li key={s.step}>
+              <div className="h-[6px] w-full bg-rule" aria-hidden>
+                <div className="h-full bg-primary" style={{ width: `${((i + 1) / process.length) * 100}%` }} />
+              </div>
+              <p className="font-display mt-6 text-[4.5rem] leading-none font-extrabold tracking-[-0.06em] text-primary">
+                {s.step}
+              </p>
+              <h3 className="mt-4 text-[1.4rem] leading-tight font-bold tracking-[-0.02em]">{s.title}</h3>
+              <p className="mt-3 text-[1.0625rem] leading-[1.6] text-ink-soft text-pretty">{s.body}</p>
+            </li>
           ))}
         </ol>
       </div>

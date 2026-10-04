@@ -1,24 +1,29 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Sora } from "next/font/google";
+import { Bricolage_Grotesque, IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/siteUrl";
 
-const inter = Inter({
+// Headlines: a grotesque with ink traps that stays sturdy at poster sizes.
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-bricolage",
+  axes: ["opsz", "wdth"],
   display: "swap",
 });
 
-const sora = Sora({
+// Body copy: plain, slightly narrow, comfortable at 16–18px.
+const instrument = Instrument_Sans({
   subsets: ["latin"],
-  variable: "--font-sora",
+  variable: "--font-instrument",
   display: "swap",
 });
 
-const mono = JetBrains_Mono({
+// Only used inside the printed run sheet, where monospace is the content.
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 
@@ -61,7 +66,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable} ${mono.variable}`}>
+    <html
+      lang="en"
+      className={`${bricolage.variable} ${instrument.variable} ${plexMono.variable}`}
+    >
       <body className="antialiased">{children}</body>
     </html>
   );

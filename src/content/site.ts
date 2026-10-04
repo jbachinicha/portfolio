@@ -10,7 +10,7 @@ export const site = {
   tagline: "I turn manual work into working software.",
   intro:
     "Full-stack web developer who specialises in automation, AI-assisted support and making disconnected tools behave like one product. I take the repetitive parts of a business (reports, tickets, hand-offs, data entry) and turn them into software that just runs.",
-  location: "Philippines · Remote worldwide",
+  location: "Philippines, working remotely worldwide",
   availability: "Open to new projects",
   // Contact address lives in src/lib/email.ts, stored reversed so scrapers
   // cannot lift it out of the exported HTML.
@@ -29,7 +29,6 @@ export const metrics = [
 
 export type Pillar = {
   id: string;
-  eyebrow: string;
   title: string;
   blurb: string;
   bullets: string[];
@@ -40,7 +39,6 @@ export type Pillar = {
 export const pillars: Pillar[] = [
   {
     id: "automation",
-    eyebrow: "01",
     title: "Process Automation",
     blurb:
       "The work nobody should be doing by hand. I map the process, find the seams, and replace the clicking with a job that runs on a schedule, or the moment something happens.",
@@ -55,7 +53,6 @@ export const pillars: Pillar[] = [
   },
   {
     id: "reports",
-    eyebrow: "02",
     title: "Reports & Data Streamlining",
     blurb:
       "Twelve spreadsheets, three exports and a Monday morning of copy-paste, collapsed into one dashboard that is already correct when you open it.",
@@ -70,7 +67,6 @@ export const pillars: Pillar[] = [
   },
   {
     id: "support",
-    eyebrow: "03",
     title: "AI Customer Support Systems",
     blurb:
       "Support that answers instantly from your real documentation, resolves what it can, and escalates the rest with the full context already attached.",
@@ -85,7 +81,6 @@ export const pillars: Pillar[] = [
   },
   {
     id: "integrations",
-    eyebrow: "04",
     title: "Tool Connection & Integrations",
     blurb:
       "Your CRM, your store, your inbox, your accounting and your internal tools, all talking to each other reliably, so data is entered once and lands everywhere.",
@@ -125,22 +120,22 @@ export const stackLayers = [
 
 export const process = [
   {
-    step: "01",
+    step: "1",
     title: "Map the process",
     body: "I sit with the actual workflow: every export, every copy-paste, every 'and then I message Ana'. You cannot automate what nobody has written down yet.",
   },
   {
-    step: "02",
+    step: "2",
     title: "Find the expensive parts",
     body: "Not everything is worth automating. I rank steps by hours burned and error risk, and we start where the payback is obvious.",
   },
   {
-    step: "03",
+    step: "3",
     title: "Ship a thin slice",
     body: "One real workflow, running in production, in days rather than quarters. Feedback beats a specification document every time.",
   },
   {
-    step: "04",
+    step: "4",
     title: "Harden and hand over",
     body: "Retries, alerting, docs and a dashboard so you can see it working. You own it: no black boxes, no vendor lock to me.",
   },

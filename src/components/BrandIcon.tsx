@@ -25,12 +25,12 @@ type Glyph = { path: string; hex: string; viewBox?: string };
 const custom: Record<"webhooks" | "playwright", Glyph> = {
   // Three-pronged webhook glyph.
   webhooks: {
-    hex: "9CA3AF",
+    hex: "0A7350",
     path: "M12 2.5a4.2 4.2 0 0 0-2.1 7.83l-2.6 4.5a1.5 1.5 0 1 1-1.3 2.7 4.5 4.5 0 1 0 2.6-8.4 1.8 1.8 0 1 1 1.8-1.83 1.8 1.8 0 0 1-.24.9l3.9 6.75a1.5 1.5 0 1 1 1.3 2.25H8.4a4.5 4.5 0 1 0 0 3h9.3a4.5 4.5 0 1 0-3.9-6.75l-2.6-4.5A4.2 4.2 0 0 0 12 2.5Z",
   },
   // Browser window with a play control.
   playwright: {
-    hex: "9CA3AF",
+    hex: "0A7350",
     path: "M3.2 4.2h17.6a.9.9 0 0 1 .9.9v13.8a.9.9 0 0 1-.9.9H3.2a.9.9 0 0 1-.9-.9V5.1a.9.9 0 0 1 .9-.9Zm0 3.6h17.6M5.6 6v-.1m2.4.1v-.1m2.4.1v-.1M10 11.4l4.8 2.8L10 17Z",
   },
 };
@@ -51,9 +51,9 @@ const brands = {
   docker: siDocker,
 } as const;
 
-// Next.js ships a pure-black mark, which disappears on a dark background.
+// React's brand cyan is too pale to read as a hover colour on paper.
 const tintOverrides: Partial<Record<ToolSlug, string>> = {
-  nextjs: "#FFFFFF",
+  react: "#149ECA",
 };
 
 export function brandColor(slug: ToolSlug): string {
