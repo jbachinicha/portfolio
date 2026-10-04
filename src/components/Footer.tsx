@@ -1,4 +1,5 @@
 import { site } from "@/content/site";
+import { CookieSettingsButton } from "./Consent";
 import { MailLink } from "./MailLink";
 
 export function Footer() {
@@ -23,6 +24,7 @@ export function Footer() {
             </a>
           ))}
           <MailLink className="transition-colors hover:text-mark">Email</MailLink>
+          <CookieSettingsButton className="transition-colors hover:text-mark" />
           <span className="text-white/70">Built with Next.js</span>
         </div>
       </div>

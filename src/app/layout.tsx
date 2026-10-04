@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
 import "./globals.css";
-import { Analytics } from "@/components/Analytics";
+import { Consent } from "@/components/Consent";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/siteUrl";
 
@@ -72,8 +72,8 @@ export default function RootLayout({
       className={`${bricolage.variable} ${instrument.variable} ${plexMono.variable}`}
     >
       <body className="antialiased">
+        <Consent />
         {children}
-        <Analytics />
       </body>
     </html>
   );
