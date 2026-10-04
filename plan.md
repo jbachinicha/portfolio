@@ -27,7 +27,7 @@ Audited against the built output in `out/` on 2026-08-24.
 | **Structured data (JSON-LD)** | **missing** | no `Person`, no `ProfessionalService` |
 | `og:site_name`, `og:locale` | missing | minor but free |
 | Search Console / Bing | not set up | no verification, no query data |
-| Outbound entity links | 1 broken | LinkedIn points at `https://www.linkedin.com/` |
+| Outbound entity links | done | LinkedIn now points at the real profile |
 | HTML weight | 188 KB | inlined SVG + all copy on one page |
 | JS weight | 816 KB | Next runtime + `motion` |
 

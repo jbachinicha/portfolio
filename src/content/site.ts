@@ -16,7 +16,7 @@ export const site = {
   // cannot lift it out of the exported HTML.
   socials: [
     { label: "GitHub", href: "https://github.com/FDC-Jay" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/jay-bachinicha/" },
   ],
 } as const;
 
