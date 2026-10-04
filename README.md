@@ -123,6 +123,8 @@ Pages use build command `npm run build`, output directory `out`, and set
   values in `src/app/og.png/route.tsx` and `src/app/icon.svg`).
 - Fonts: Bricolage Grotesque (headlines), Instrument Sans (body) and IBM Plex
   Mono (only inside the hero run sheet), all self-hosted by `next/font`.
+- Google Analytics (GA4) is loaded by `src/components/Analytics.tsx` in production
+  builds only. Change the Measurement ID there.
 - `prefers-reduced-motion` disables all animation via `src/app/globals.css`;
   the hero run sheet then renders in its finished state.
 - `/og.png` is generated at build time from `src/app/og.png/route.tsx`. It sits
