@@ -1,8 +1,10 @@
 name: Deploy to GitHub Pages
 
+# Manual only. Production is served from Cloudflare Pages (see README), and
+# GitHub Pages cannot serve a private repository on a free plan, so running
+# this on every push would only produce failed runs. Re-add the `push` trigger
+# if the repo goes public and Pages is switched on.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
