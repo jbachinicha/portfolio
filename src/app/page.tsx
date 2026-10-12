@@ -6,6 +6,7 @@ import { Pillars } from "@/components/Pillars";
 import { StackSection } from "@/components/StackSection";
 import { Process } from "@/components/Process";
 import { Projects } from "@/components/Projects";
+import { InProgress } from "@/components/InProgress";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 
@@ -21,6 +22,7 @@ export default function Home() {
         <StackSection />
         <Process />
         <Projects />
+        <InProgress />
         <Contact />
       </main>
       <Footer />

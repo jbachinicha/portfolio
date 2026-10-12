@@ -10,6 +10,7 @@ const links = [
   { href: "#stack", label: "Stack" },
   { href: "#process", label: "Process" },
   { href: "#work", label: "Work" },
+  { href: "#in-progress", label: "In progress" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -74,7 +75,7 @@ export function Nav() {
             <span className="font-display text-[1.05rem] font-bold tracking-[-0.02em]">{site.fullName}</span>
           </a>
 
-          <ul className="hidden items-center gap-1 md:flex">
+          <ul className="hidden items-center gap-1 lg:flex">
             {links.map((l) => (
               <li key={l.href}>
                 <a
@@ -103,7 +104,7 @@ export function Nav() {
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-label="Toggle navigation"
-              className={`grid h-10 w-10 place-items-center rounded-md border md:hidden ${
+              className={`grid h-10 w-10 place-items-center rounded-md border lg:hidden ${
                 light ? "border-white/40" : "border-rule bg-sheet"
               }`}
             >
@@ -132,8 +133,8 @@ export function Nav() {
 
       {/* Mobile sheet */}
       <div
-        className={`overflow-hidden border-b bg-paper transition-[max-height,opacity] duration-300 md:hidden ${
-          open ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
+        className={`overflow-hidden border-b bg-paper transition-[max-height,opacity] duration-300 lg:hidden ${
+          open ? "max-h-[32rem] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <ul className="container-page flex flex-col py-2">
