@@ -7,6 +7,15 @@ import { ShotTabs, VideoPlayer } from "./WorkMedia";
 
 const chip = "rounded-md border border-ink/15 bg-paper px-2.5 py-1 text-[14px] font-medium text-ink-soft";
 
+/** Below `lg` the panels are a horizontal swipe track; from `lg` up only the picked one shows. */
+const isTrack = () => window.matchMedia("(max-width: 1023px)").matches;
+
+function scrollTrackTo(track: HTMLElement | null, id: string, behavior: ScrollBehavior) {
+  if (!track || !isTrack()) return;
+  const i = shownBuilds.findIndex((b) => b.id === id);
+  track.scrollTo({ left: i * track.clientWidth, behavior });
+}
+
 function BuildPanel({ build, active }: { build: Build; active: boolean }) {
   // Only a tall video gets a narrow frame; wide media fills the column.
   const portrait = build.media.type === "video" && build.media.height > build.media.width;
@@ -17,8 +26,12 @@ function BuildPanel({ build, active }: { build: Build; active: boolean }) {
       id={build.id}
       role="tabpanel"
       aria-labelledby={`tab-${build.id}`}
-      hidden={!active}
-      className="animate-rise min-w-0"
+      data-panel
+      data-active={active ? "" : undefined}
+      // Phones: every panel is a swipe slide. Desktop: only the picked one shows.
+      className={`w-full min-w-0 shrink-0 snap-start snap-always px-[clamp(1.25rem,4vw,2.5rem)] lg:w-auto lg:px-0 ${
+        active ? "lg:animate-rise" : "lg:hidden"
+      }`}
     >
       <p className="text-[15px] text-muted">{build.kind}</p>
       <h3 className="mt-1.5 text-[clamp(1.9rem,3vw,2.6rem)] leading-[1.04] font-bold tracking-[-0.03em]">
@@ -65,14 +78,21 @@ function BuildPanel({ build, active }: { build: Build; active: boolean }) {
 export function Work() {
   const [activeId, setActiveId] = useState(shownBuilds[0].id);
   const showcase = useRef<HTMLDivElement>(null);
+  const track = useRef<HTMLDivElement>(null);
+  const activeRef = useRef(activeId);
+  useEffect(() => {
+    activeRef.current = activeId;
+  }, [activeId]);
 
-  // Deep links (`/#jobhunt`) pick a build and bring the showcase into view. Inactive
-  // panels are display:none, so the browser cannot scroll to them by itself.
+  // Deep links (`/#jobhunt`) pick a build and bring the showcase into view. On desktop
+  // the inactive panels are display:none, and on phones they are off to the side, so the
+  // browser cannot scroll to them by itself.
   useEffect(() => {
     const fromHash = () => {
       const id = decodeURIComponent(window.location.hash.slice(1));
       if (!shownBuilds.some((b) => b.id === id)) return;
       setActiveId(id);
+      requestAnimationFrame(() => scrollTrackTo(track.current, id, "auto"));
       // Let the browser's own hash scroll finish first, then take over.
       setTimeout(() => showcase.current?.scrollIntoView({ block: "start" }), 60);
     };
@@ -81,16 +101,59 @@ export function Work() {
     return () => window.removeEventListener("hashchange", fromHash);
   }, []);
 
-  // A hidden video keeps playing; stop whatever is no longer on screen.
+  // Swiping: once the track settles, the slide in view becomes the picked build.
   useEffect(() => {
-    showcase.current?.querySelectorAll<HTMLElement>('[role="tabpanel"][hidden] video').forEach((v) => {
-      (v as HTMLVideoElement).pause();
+    const el = track.current;
+    if (!el) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const onScroll = () => {
+      if (!isTrack()) return;
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const id = shownBuilds[Math.round(el.scrollLeft / el.clientWidth)]?.id;
+        if (id && id !== activeRef.current) {
+          setActiveId(id);
+          window.history.replaceState(null, "", `#${id}`);
+        }
+      }, 90);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      clearTimeout(timer);
+      el.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  // The track is as tall as the slide in view, not the tallest slide, so a short build
+  // does not leave a gap under it.
+  useEffect(() => {
+    const el = track.current;
+    const panel = document.getElementById(activeId);
+    if (!el || !panel) return;
+    const fit = () => {
+      el.style.height = isTrack() ? `${panel.offsetHeight}px` : "";
+    };
+    fit();
+    const observer = new ResizeObserver(fit);
+    observer.observe(panel);
+    window.addEventListener("resize", fit);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", fit);
+    };
+  }, [activeId]);
+
+  // A video keeps playing after its slide is gone; stop whatever is no longer picked.
+  useEffect(() => {
+    showcase.current?.querySelectorAll<HTMLVideoElement>("[data-panel]:not([data-active]) video").forEach((v) => {
+      v.pause();
     });
   }, [activeId]);
 
   function select(id: string) {
     setActiveId(id);
     window.history.replaceState(null, "", `#${id}`);
+    scrollTrackTo(track.current, id, "smooth");
   }
 
   function onKeyDown(e: React.KeyboardEvent, index: number) {
@@ -157,9 +220,19 @@ export function Work() {
           </div>
 
           <div className="min-w-0">
-            {shownBuilds.map((b) => (
-              <BuildPanel key={b.id} build={b} active={b.id === activeId} />
-            ))}
+            <p className="mb-5 flex items-center gap-2 text-[13px] text-muted lg:hidden" aria-hidden>
+              <span>←</span>
+              Swipe to see the next build
+              <span>→</span>
+            </p>
+            <div
+              ref={track}
+              className="-mx-[clamp(1.25rem,4vw,2.5rem)] flex snap-x snap-mandatory items-start overflow-x-auto overflow-y-hidden overscroll-x-contain transition-[height] duration-300 [scrollbar-width:none] lg:mx-0 lg:block lg:snap-none lg:overflow-visible [&::-webkit-scrollbar]:hidden"
+            >
+              {shownBuilds.map((b) => (
+                <BuildPanel key={b.id} build={b} active={b.id === activeId} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
