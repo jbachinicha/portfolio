@@ -339,8 +339,8 @@ export const inProgress: Build[] = [
       "A 412-case automated suite that photographs and checks every system",
     ],
     stack: ["Godot 4", "GDScript", "Blender", "Python"],
-    note: "Recorded from the game on the home beach, with the on-screen display switched off.",
-    media: { type: "video", src: "work/deeptime.mp4", poster: "work/deeptime.jpg", width: 1280, height: 640, label: "Deep Time: surf rolling onto the home beach" },
+    note: "Recorded from the game at 60 fps with the on-screen display off. The hour and the weather change from scene to scene: dawn, noon, fog, a storm, dusk and moonlight.",
+    media: { type: "video", src: "work/deeptime.mp4", poster: "work/deeptime.jpg", width: 1280, height: 536, label: "Deep Time: sailing at dawn, noon, in fog, in a storm, at dusk and by moonlight" },
   },
 ];
 
