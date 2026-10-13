@@ -339,7 +339,7 @@ export const inProgress: Build[] = [
       "A 412-case automated suite that photographs and checks every system",
     ],
     stack: ["Godot 4", "GDScript", "Blender", "Python"],
-    media: { type: "video", src: "work/deeptime.mp4", poster: "work/deeptime.jpg", width: 1280, height: 536, label: "Deep Time: sailing at dawn, noon, in fog, in a storm, at dusk and by moonlight" },
+    media: { type: "video", src: "work/deeptime.mp4", poster: "work/deeptime.jpg", width: 1280, height: 536, label: "Deep Time: the home screen, then sailing at dawn, noon, in fog, in a storm, at dusk and by moonlight" },
   },
 ];
 
