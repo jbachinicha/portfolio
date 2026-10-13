@@ -26,12 +26,19 @@
 
   --animate-drop: drop 0.8s cubic-bezier(0.2, 0.8, 0.3, 1.12) backwards;
   --animate-bob: bob 5s ease-in-out infinite;
+  --animate-rise: rise 0.4s ease-out both;
 
   --animate-queue: queue 4.8s ease-in-out infinite;
   --animate-grow: grow 4s ease-in-out infinite;
   --animate-typing: typing 1.3s ease-in-out infinite;
   --animate-flow: flow 3s linear infinite;
   --animate-orbit: orbit 28s linear infinite;
+}
+
+/* A work panel fades up when its tab is picked. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Hero blocks: drop onto the stage one by one, then hover. */
