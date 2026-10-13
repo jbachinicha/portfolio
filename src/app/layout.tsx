@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Archivo, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { Consent } from "@/components/Consent";
+import { FluidCursor } from "@/components/FluidCursor";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/siteUrl";
 
@@ -65,6 +66,7 @@ export default function RootLayout({
     >
       <body className="antialiased">
         <Consent />
+        <FluidCursor />
         {children}
       </body>
     </html>
