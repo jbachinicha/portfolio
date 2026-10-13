@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { inProgress, scenes, type Build } from "@/content/site";
+import { scenes, shownBuilds, type Build } from "@/content/site";
 import { SectionHeading } from "./SectionHeading";
 import { ShotTabs, VideoPlayer } from "./WorkMedia";
 
@@ -63,7 +63,7 @@ function BuildPanel({ build, active }: { build: Build; active: boolean }) {
 }
 
 export function Work() {
-  const [activeId, setActiveId] = useState(inProgress[0].id);
+  const [activeId, setActiveId] = useState(shownBuilds[0].id);
   const showcase = useRef<HTMLDivElement>(null);
   const tabs = useRef<HTMLDivElement>(null);
 
@@ -72,7 +72,7 @@ export function Work() {
   useEffect(() => {
     const fromHash = () => {
       const id = decodeURIComponent(window.location.hash.slice(1));
-      if (!inProgress.some((b) => b.id === id)) return;
+      if (!shownBuilds.some((b) => b.id === id)) return;
       setActiveId(id);
       // Let the browser's own hash scroll finish first, then take over.
       setTimeout(() => showcase.current?.scrollIntoView({ block: "start" }), 60);
@@ -102,12 +102,12 @@ export function Work() {
   }
 
   function onKeyDown(e: React.KeyboardEvent, index: number) {
-    const last = inProgress.length - 1;
+    const last = shownBuilds.length - 1;
     const next =
       e.key === "ArrowDown" || e.key === "ArrowRight"
-        ? (index + 1) % inProgress.length
+        ? (index + 1) % shownBuilds.length
         : e.key === "ArrowUp" || e.key === "ArrowLeft"
-          ? (index + last) % inProgress.length
+          ? (index + last) % shownBuilds.length
           : e.key === "Home"
             ? 0
             : e.key === "End"
@@ -115,8 +115,8 @@ export function Work() {
               : -1;
     if (next < 0) return;
     e.preventDefault();
-    select(inProgress[next].id);
-    document.getElementById(`tab-${inProgress[next].id}`)?.focus();
+    select(shownBuilds[next].id);
+    document.getElementById(`tab-${shownBuilds[next].id}`)?.focus();
   }
 
   return (
@@ -134,7 +134,7 @@ export function Work() {
             aria-label="Builds"
             className="-mx-5 flex snap-x gap-2 overflow-x-auto px-5 pb-2 scroll-pl-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mx-10 sm:px-10 lg:mx-0 lg:flex-col lg:self-start lg:overflow-visible lg:px-0 lg:pb-0"
           >
-            {inProgress.map((b, i) => {
+            {shownBuilds.map((b, i) => {
               const selected = b.id === activeId;
               return (
                 <button
@@ -166,7 +166,7 @@ export function Work() {
           </div>
 
           <div className="min-w-0">
-            {inProgress.map((b) => (
+            {shownBuilds.map((b) => (
               <BuildPanel key={b.id} build={b} active={b.id === activeId} />
             ))}
           </div>

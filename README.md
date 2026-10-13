@@ -17,7 +17,7 @@ Everything personal lives in one file: [`src/content/site.ts`](src/content/site.
 | Export          | What it controls                                                 | Page    |
 | --------------- | ---------------------------------------------------------------- | ------- |
 | `site`          | Name, role, intros (`summary` home, `intro` hire), links         | both    |
-| `inProgress`    | The builds shown with screens and recordings                     | `/`     |
+| `inProgress`    | The builds with screens and recordings (`hidden: true` hides one) | `/`     |
 | `scenes`        | The small three.js scenes under the builds                       | `/`     |
 | `stackLayers`   | Stack section: frontend / backend / data / integrations / platform | `/`   |
 | `about`, `experience`, `education` | About and experience, from the resume          | `/`     |
@@ -26,7 +26,7 @@ Everything personal lives in one file: [`src/content/site.ts`](src/content/site.
 | `metrics`       | The four animated counters                                       | `/hire/` |
 | `pillars`       | The four capability rows (copy, bullets, tools)                  | `/hire/` |
 | `process`       | The four-step "how I work" row                                   | `/hire/` |
-| `projects`      | Three builds on the client page, derived from `inProgress`       | `/hire/` |
+| `projects`      | Job Hunt and Point of Sale on the client page, from `inProgress`| `/hire/` |
 
 > [!IMPORTANT]
 > The tool lists in `pillars` (Make, OpenAI, Zendesk / Intercom, Recharts, ETL,

@@ -24,19 +24,12 @@ export const site = {
   ],
 } as const;
 
-export const metrics = [
-  { value: 7, suffix: "+", label: "Years building web applications", sub: "legacy and modern stacks" },
-  { value: 49, suffix: "", label: "Locales of page content delivered", sub: "on a platform migration, checked against the originals" },
-  { value: 5, suffix: "", label: "Products built and running", sub: "see the portfolio for each one" },
-  { value: 8, suffix: "", label: "Sources merged into one feed", sub: "in my own job-search tool" },
-] as const;
-
 /** From the resume. Keep to what it says. */
 export const about = {
   heading: "Seven years of keeping web apps working, and building new ones",
   body: [
     "I work across legacy and modern stacks, diagnosing defects, delivering features and keeping production platforms stable, secure and user-friendly.",
-    "Outside work I build my own tools and games: a website builder, a point of sale, a job-search tool and a text-to-video pipeline.",
+    "Outside work I build my own tools and games: a website builder, a point of sale, a job-search tool and a fishing game.",
   ],
 } as const;
 
@@ -223,6 +216,8 @@ type BuildBase = {
   stack: string[];
   /** Caption under the media, for example "Screenshots use demo data." */
   note: string;
+  /** Keeps the entry in this file but off the site. Remove the line to show it again. */
+  hidden?: boolean;
 };
 
 export type Build = BuildBase & {
@@ -306,6 +301,7 @@ export const inProgress: Build[] = [
   },
   {
     id: "parkour",
+    hidden: true,
     title: "Parkour Generator",
     kind: "Text-to-video pipeline",
     summary:
@@ -357,14 +353,31 @@ export type Scene = {
   video: { src: string; poster: string; width: number; height: number; label: string };
 };
 
+/** The builds that appear on the site. */
+export const shownBuilds = inProgress.filter((b) => !b.hidden);
+
 /**
  * Builds featured on the client page. Derived from the real builds above so
  * the two pages never disagree; each one links to its row in the portfolio.
  */
-export const projects = (["jobhunt", "pointofsale", "parkour"] as const).map((id) => {
-  const b = inProgress.find((x) => x.id === id)!;
-  return { id: b.id, title: b.title, kind: b.kind, summary: b.summary, outcomes: b.working.slice(0, 3), stack: b.stack };
-});
+export const projects = shownBuilds
+  .filter((b) => ["jobhunt", "pointofsale"].includes(b.id))
+  .map((b) => ({
+    id: b.id,
+    title: b.title,
+    kind: b.kind,
+    summary: b.summary,
+    outcomes: b.working.slice(0, 3),
+    stack: b.stack,
+  }));
+
+/** Counted from the resume and the builds shown above, so they cannot drift. */
+export const metrics = [
+  { value: 7, suffix: "+", label: "Years building web applications", sub: "legacy and modern stacks" },
+  { value: 49, suffix: "", label: "Locales of page content delivered", sub: "on a platform migration, checked against the originals" },
+  { value: shownBuilds.length, suffix: "", label: "Products built and running", sub: "see the portfolio for each one" },
+  { value: 8, suffix: "", label: "Sources merged into one feed", sub: "in my own job-search tool" },
+];
 
 /** Small interactive three.js scenes, each one page. Recorded from the running scene. */
 export const scenes: Scene[] = [

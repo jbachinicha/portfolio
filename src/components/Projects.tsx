@@ -8,7 +8,7 @@ export function Projects() {
       <div className="container-page">
         <SectionHeading
           title="Builds that automate, report and connect"
-          lead="Three of my own builds, each one running. The portfolio has the screens and recordings for every one."
+          lead="Two of my own builds, each one running. The portfolio has the screens and recordings for every one."
         />
 
         <div className="mt-16 border-t-[3px] border-ink">
