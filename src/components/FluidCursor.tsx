@@ -3,9 +3,8 @@
 import { useEffect, useRef } from "react";
 import { createFluid, type Rgb } from "@/lib/fluid";
 
-/** Soft pastel colour at a random hue; the dye's intensity becomes its opacity. */
-function pastel(strength = 0.2): Rgb {
-  const h = Math.random() * 6;
+/** Soft pastel colour at a position (0..6) round the hue wheel; the dye's intensity becomes its opacity. */
+function pastel(strength: number, h: number): Rgb {
   const s = 0.55;
   const f = h - Math.floor(h);
   const p = 1 - s;
@@ -23,7 +22,10 @@ function pastel(strength = 0.2): Rgb {
   return [r * strength, g * strength, b * strength];
 }
 
-/** Warm, luminous tones that stay vivid on green. Kept to neighbouring hues so they do not blend to grey. */
+/**
+ * Luminous tones for dark backgrounds. Kept to neighbouring hues: a full rainbow
+ * mixes to grey-white over green, which these do not.
+ */
 const GLOW: readonly Rgb[] = [
   [0.97, 0.92, 0.29], // the site's highlighter yellow
   [0.78, 0.97, 0.5], // lime
@@ -32,10 +34,18 @@ const GLOW: readonly Rgb[] = [
   [1, 0.96, 0.72], // cream
 ];
 
-function glow(strength: number): Rgb {
-  const [r, g, b] = GLOW[Math.floor(Math.random() * GLOW.length)];
+function glow(strength: number, t: number): Rgb {
+  const pos = t * GLOW.length;
+  const i = Math.floor(pos);
+  const f = pos - i;
+  const from = GLOW[i % GLOW.length];
+  const to = GLOW[(i + 1) % GLOW.length];
   const k = strength * 1.6;
-  return [r * k, g * k, b * k];
+  return [
+    (from[0] + (to[0] - from[0]) * f) * k,
+    (from[1] + (to[1] - from[1]) * f) * k,
+    (from[2] + (to[2] - from[2]) * f) * k,
+  ];
 }
 
 /** Whether the visible background at a point is dark, found from the nearest painted ancestor. */
@@ -68,16 +78,20 @@ export function FluidCursor() {
 
     let dark = false;
     let darkCheckedAt = 0;
-    // Hue changes every so often, and the palette follows whatever is underneath.
-    const pick = (strength = 0.2) => (dark ? glow(strength) : pastel(strength));
+    // Every trigger (a move, a scattered splat, a tap spoke) steps the colour along the
+    // wheel, so a trail reads as a run of neighbouring hues. The palette follows
+    // whatever is underneath.
+    let phase = Math.random();
+    const pick = (strength: number, step: number) => {
+      phase = (phase + step) % 1;
+      return dark ? glow(strength, phase) : pastel(strength, phase * 6);
+    };
     const track = (x: number, y: number, now: number) => {
       if (now - darkCheckedAt < 100) return;
       darkCheckedAt = now;
       dark = backdropIsDark(x, y);
     };
 
-    let color = pick();
-    let colorTimer = 0;
     let previous: { x: number; y: number; t: number } | null = null;
 
     // Hover: a trail behind the mouse. Touch has no hover, so it only reacts to taps.
@@ -86,13 +100,9 @@ export function FluidCursor() {
       const now = performance.now();
       track(e.clientX, e.clientY, now);
       if (previous) {
-        if (now - colorTimer > 140) {
-          color = pick();
-          colorTimer = now;
-        }
         const dx = e.clientX - previous.x;
         const dy = e.clientY - previous.y;
-        fluid.splat(e.clientX, e.clientY, dx, dy, color);
+        fluid.splat(e.clientX, e.clientY, dx, dy, pick(0.2, 0.035));
         // Scatter: a few small splats thrown off to the sides, each with its own heading.
         for (let i = 0; i < 3; i++) {
           const angle = Math.random() * Math.PI * 2;
@@ -103,7 +113,7 @@ export function FluidCursor() {
             e.clientY + Math.sin(angle) * reach,
             Math.cos(angle) * push + dx * 0.4,
             Math.sin(angle) * push + dy * 0.4,
-            pick(0.14),
+            pick(0.14, 0.06),
             0.12,
           );
         }
@@ -128,7 +138,7 @@ export function FluidCursor() {
           e.clientY + Math.sin(angle) * 10,
           Math.cos(angle) * push,
           Math.sin(angle) * push,
-          pick(0.3),
+          pick(0.3, 0.11),
           0.22,
         );
       }
