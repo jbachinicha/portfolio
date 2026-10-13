@@ -65,7 +65,6 @@ function BuildPanel({ build, active }: { build: Build; active: boolean }) {
 export function Work() {
   const [activeId, setActiveId] = useState(shownBuilds[0].id);
   const showcase = useRef<HTMLDivElement>(null);
-  const tabs = useRef<HTMLDivElement>(null);
 
   // Deep links (`/#jobhunt`) pick a build and bring the showcase into view. Inactive
   // panels are display:none, so the browser cannot scroll to them by itself.
@@ -82,15 +81,8 @@ export function Work() {
     return () => window.removeEventListener("hashchange", fromHash);
   }, []);
 
-  // A hidden video keeps playing; stop whatever is no longer on screen. On phones the
-  // tabs sit in a scrolling row, so bring the picked one into view along the row only.
+  // A hidden video keeps playing; stop whatever is no longer on screen.
   useEffect(() => {
-    const row = tabs.current;
-    const tab = document.getElementById(`tab-${activeId}`);
-    if (row && tab && row.scrollWidth > row.clientWidth) {
-      const offset = tab.getBoundingClientRect().left - row.getBoundingClientRect().left;
-      row.scrollTo({ left: row.scrollLeft + offset - 20 });
-    }
     showcase.current?.querySelectorAll<HTMLElement>('[role="tabpanel"][hidden] video').forEach((v) => {
       (v as HTMLVideoElement).pause();
     });
@@ -129,10 +121,9 @@ export function Work() {
 
         <div ref={showcase} className="mt-14 grid scroll-mt-24 gap-8 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-14">
           <div
-            ref={tabs}
             role="tablist"
             aria-label="Builds"
-            className="-mx-5 flex snap-x gap-2 overflow-x-auto px-5 pb-2 scroll-pl-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mx-10 sm:px-10 lg:mx-0 lg:flex-col lg:self-start lg:overflow-visible lg:px-0 lg:pb-0"
+            className="grid grid-cols-2 gap-2 lg:flex lg:flex-col lg:self-start"
           >
             {shownBuilds.map((b, i) => {
               const selected = b.id === activeId;
@@ -147,7 +138,7 @@ export function Work() {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => select(b.id)}
                   onKeyDown={(e) => onKeyDown(e, i)}
-                  className={`min-w-[10.5rem] shrink-0 snap-start rounded-md border px-4 py-3 text-left transition-colors lg:w-full lg:shrink ${
+                  className={`rounded-md border px-3.5 py-3 text-left transition-colors sm:px-4 ${
                     selected
                       ? "border-primary bg-primary-wash"
                       : "border-rule hover:border-ink/40 hover:bg-paper lg:border-transparent"
@@ -159,7 +150,7 @@ export function Work() {
                     </span>
                     <span className="text-[1.05rem] leading-tight font-bold tracking-[-0.01em]">{b.title}</span>
                   </span>
-                  <span className="mt-1 block pl-[1.85rem] text-[13.5px] leading-snug text-muted">{b.kind}</span>
+                  <span className="mt-1 block text-[13.5px] leading-snug text-muted sm:pl-[1.85rem]">{b.kind}</span>
                 </button>
               );
             })}
