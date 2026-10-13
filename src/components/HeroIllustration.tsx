@@ -1,6 +1,7 @@
 import { heroLanguages } from "@/content/site";
 import { arc, box, COS, extrude, mix, proj, SIN, sweep, sweepConvex, type Pt, type Tones } from "@/lib/iso";
 import { brandGlyph } from "./BrandIcon";
+import { HeroParallax } from "./HeroParallax";
 
 /**
  * The hero artwork: the initials "JB" as big extruded letters on a stage, with
@@ -88,7 +89,8 @@ function Blocks() {
     const size = TILE * 0.68;
     const k = size / 24;
     const [tx, ty] = proj(slot.x + (TILE - size) / 2, slot.y + (TILE - size) / 2, STAGE.h + slot.h);
-    return { lang, slot, path, tones, k, tx, ty, ink: onYellow ? COLOR.ink : "#ffffff", index: i };
+    const [cx, cy] = proj(slot.x + TILE / 2, slot.y + TILE / 2, STAGE.h + slot.h);
+    return { lang, slot, path, tones, k, tx, ty, cx, cy, ink: onYellow ? COLOR.ink : "#ffffff", index: i };
   });
 
   // Nearer blocks are painted later.
@@ -96,20 +98,40 @@ function Blocks() {
 
   return (
     <>
-      {ordered.map(({ lang, slot, path, tones, k, tx, ty, ink, index }) => (
-        <g key={lang.slug} className="animate-drop" style={{ animationDelay: `${0.25 + index * 0.1}s` }}>
-          <g className="animate-bob" style={{ animationDelay: `${index * -0.7}s` }}>
-            {box(slot.x, slot.y, STAGE.h, TILE, TILE, slot.h, tones).map((f, n) => (
-              <polygon key={n} points={f.points} fill={f.fill} stroke={f.fill} strokeWidth="1.4" strokeLinejoin="round" />
-            ))}
-            <path
-              d={path}
-              fill={ink}
-              transform={`matrix(${COS * k} ${SIN * k} ${-COS * k} ${SIN * k} ${tx} ${ty})`}
-            />
+      {ordered.map(({ lang, slot, path, tones, k, tx, ty, cx, cy, ink, index }) => {
+        const pill = lang.name.length * 6.8 + 20;
+        return (
+          <g key={lang.slug} className="animate-drop" style={{ animationDelay: `${0.25 + index * 0.1}s` }}>
+            <g className="animate-bob" style={{ animationDelay: `${index * -0.7}s` }}>
+              {/* Lifts under the pointer (or a tap) and names its language. */}
+              <g className="hero-tile">
+                {box(slot.x, slot.y, STAGE.h, TILE, TILE, slot.h, tones).map((f, n) => (
+                  <polygon key={n} points={f.points} fill={f.fill} stroke={f.fill} strokeWidth="1.4" strokeLinejoin="round" />
+                ))}
+                <path
+                  d={path}
+                  fill={ink}
+                  transform={`matrix(${COS * k} ${SIN * k} ${-COS * k} ${SIN * k} ${tx} ${ty})`}
+                />
+                <g className="hero-label">
+                  <rect x={cx - pill / 2} y={cy - 52} width={pill} height={24} rx={12} fill="#ffffff" />
+                  <text
+                    x={cx}
+                    y={cy - 36}
+                    textAnchor="middle"
+                    fontSize="12"
+                    fontWeight="700"
+                    fill={COLOR.ink}
+                    style={{ fontFamily: "var(--font-display)" }}
+                  >
+                    {lang.name}
+                  </text>
+                </g>
+              </g>
+            </g>
           </g>
-        </g>
-      ))}
+        );
+      })}
     </>
   );
 }
@@ -162,53 +184,61 @@ export function HeroIllustration({ className }: { className?: string }) {
     .slice(0, -1)
     .join(", ")} and ${names.at(-1)}`;
 
+  const tileShadows = slots.slice(0, heroLanguages.length).map((s, i) => (
+    <polygon
+      key={`t${i}`}
+      points={sweepConvex(
+        [
+          [s.x, s.y],
+          [s.x + TILE, s.y],
+          [s.x + TILE, s.y + TILE],
+          [s.x, s.y + TILE],
+        ],
+        STAGE.h,
+        s.h * 0.62,
+        s.h * 0.2,
+      )}
+      fill={COLOR.stageShadow}
+    />
+  ));
+
   return (
-    <svg
-      viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`}
-      className={className}
-      overflow="visible"
-      role="img"
-      aria-label={label}
-    >
-      {/* Shadows: the stage on the field, then letters and blocks on the stage. */}
-      <g aria-hidden>
-        <polygon points={sweepConvex(stageRing, 0, FIELD_SHADOW.x, FIELD_SHADOW.y)} fill={COLOR.fieldShadow} />
-      </g>
+    <HeroParallax>
+      <svg
+        viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`}
+        className={className}
+        overflow="visible"
+        role="img"
+        aria-label={label}
+      >
+        {/* Three depth layers, each shifting a little more with the cursor: the stage and its
+            shadows, the letters, then the language blocks nearest the viewer. */}
+        <g className="hero-layer" style={{ ["--k" as string]: 3 }} aria-hidden>
+          <polygon points={sweepConvex(stageRing, 0, FIELD_SHADOW.x, FIELD_SHADOW.y)} fill={COLOR.fieldShadow} />
+          {box(0, 0, 0, STAGE.w, STAGE.d, STAGE.h, {
+            top: COLOR.stageTop,
+            left: COLOR.stageLeft,
+            right: COLOR.stageRight,
+          }).map((f, n) => (
+            <polygon key={n} points={f.points} fill={f.fill} stroke={f.fill} strokeWidth="1" strokeLinejoin="round" />
+          ))}
+          <path d={ruling} stroke={COLOR.stageLine} strokeOpacity="0.14" strokeWidth="1" fill="none" />
+          {[jRings, bRings]
+            .flatMap((rings) => sweep(rings[0], STAGE.h, LETTER_HEIGHT * 0.62, LETTER_HEIGHT * 0.2, 14))
+            .map((points, i) => (
+              <polygon key={`l${i}`} points={points} fill={COLOR.stageShadow} />
+            ))}
+          {tileShadows}
+        </g>
 
-      <g aria-hidden>
-        {box(0, 0, 0, STAGE.w, STAGE.d, STAGE.h, {
-          top: COLOR.stageTop,
-          left: COLOR.stageLeft,
-          right: COLOR.stageRight,
-        }).map((f, n) => (
-          <polygon key={n} points={f.points} fill={f.fill} stroke={f.fill} strokeWidth="1" strokeLinejoin="round" />
-        ))}
-        <path d={ruling} stroke={COLOR.stageLine} strokeOpacity="0.14" strokeWidth="1" fill="none" />
+        <g className="hero-layer" style={{ ["--k" as string]: 7 }} aria-hidden>
+          <Letters />
+        </g>
 
-        {[jRings, bRings].flatMap((rings) => sweep(rings[0], STAGE.h, LETTER_HEIGHT * 0.62, LETTER_HEIGHT * 0.2, 14)).map((points, i) => (
-          <polygon key={`l${i}`} points={points} fill={COLOR.stageShadow} />
-        ))}
-        {slots.slice(0, heroLanguages.length).map((s, i) => (
-          <polygon
-            key={`t${i}`}
-            points={sweepConvex(
-              [
-                [s.x, s.y],
-                [s.x + TILE, s.y],
-                [s.x + TILE, s.y + TILE],
-                [s.x, s.y + TILE],
-              ],
-              STAGE.h,
-              s.h * 0.62,
-              s.h * 0.2,
-            )}
-            fill={COLOR.stageShadow}
-          />
-        ))}
-
-        <Letters />
-        <Blocks />
-      </g>
-    </svg>
+        <g className="hero-layer" style={{ ["--k" as string]: 11 }}>
+          <Blocks />
+        </g>
+      </svg>
+    </HeroParallax>
   );
 }
