@@ -21,6 +21,8 @@ const instrument = Instrument_Sans({
   display: "swap",
 });
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 const description = `${site.role}. Automation, report streamlining, AI customer support systems and tool integrations.`;
 
 export const metadata: Metadata = {
@@ -42,6 +44,15 @@ export const metadata: Metadata = {
     "Next.js developer",
   ],
   authors: [{ name: site.fullName }],
+  // Declared by hand so the .ico (for browsers and crawlers that skip SVG) is linked too.
+  // Metadata icon URLs are not prefixed with the base path, so it is added here.
+  icons: {
+    icon: [
+      { url: `${basePath}/icon.svg`, type: "image/svg+xml" },
+      { url: `${basePath}/favicon.ico`, sizes: "48x48" },
+    ],
+    apple: { url: `${basePath}/apple-icon.png`, sizes: "180x180" },
+  },
   openGraph: {
     title: `${site.fullName} | ${site.role}`,
     siteName: site.fullName,
