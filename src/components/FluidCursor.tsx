@@ -78,13 +78,14 @@ export function FluidCursor() {
 
     let dark = false;
     let darkCheckedAt = 0;
-    // Every trigger (a move, a scattered splat, a tap spoke) steps the colour along the
-    // wheel, so a trail reads as a run of neighbouring hues. The palette follows
-    // whatever is underneath.
+    // The colour is a position on a loop, moved by distance travelled (not by how many
+    // events arrived), so it drifts steadily however fast the mouse reports. The palette
+    // follows whatever is underneath.
     let phase = Math.random();
-    const pick = (strength: number, step: number) => {
-      phase = (phase + step) % 1;
-      return dark ? glow(strength, phase) : pastel(strength, phase * 6);
+    const TRAVEL_PER_CYCLE = 1200;
+    const colour = (strength: number, offset = 0) => {
+      const p = (((phase + offset) % 1) + 1) % 1;
+      return dark ? glow(strength, p) : pastel(strength, p * 6);
     };
     const track = (x: number, y: number, now: number) => {
       if (now - darkCheckedAt < 100) return;
@@ -92,40 +93,58 @@ export function FluidCursor() {
       dark = backdropIsDark(x, y);
     };
 
-    let previous: { x: number; y: number; t: number } | null = null;
+    // Hover: a trail behind the mouse. Mice, and some browsers, report several moves per
+    // frame, so they are gathered and applied once per frame: one splat, plus a thin
+    // scatter of small ones in the same hue. Touch has no hover, so it only reacts to taps.
+    let latest: { x: number; y: number } | null = null;
+    let anchor: { x: number; y: number } | null = null;
+    let scatterAt = 0;
+    let raf = 0;
 
-    // Hover: a trail behind the mouse. Touch has no hover, so it only reacts to taps.
-    const onMove = (e: PointerEvent) => {
-      if (e.pointerType === "touch") return;
-      const now = performance.now();
-      track(e.clientX, e.clientY, now);
-      if (previous) {
-        const dx = e.clientX - previous.x;
-        const dy = e.clientY - previous.y;
-        fluid.splat(e.clientX, e.clientY, dx, dy, pick(0.2, 0.035));
-        // Scatter: a few small splats thrown off to the sides, each with its own heading.
-        for (let i = 0; i < 3; i++) {
+    const flush = (now: number) => {
+      raf = 0;
+      if (!latest || !anchor) return;
+      const dx = latest.x - anchor.x;
+      const dy = latest.y - anchor.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 0.5) return;
+      track(latest.x, latest.y, now);
+      phase = (phase + dist / TRAVEL_PER_CYCLE) % 1;
+      fluid.splat(latest.x, latest.y, dx, dy, colour(0.2));
+      if (now - scatterAt > 50) {
+        scatterAt = now;
+        for (let i = 0; i < 2; i++) {
           const angle = Math.random() * Math.PI * 2;
-          const reach = 14 + Math.random() * 38;
-          const push = 10 + Math.random() * 26;
+          const reach = 14 + Math.random() * 30;
+          const push = 10 + Math.random() * 22;
           fluid.splat(
-            e.clientX + Math.cos(angle) * reach,
-            e.clientY + Math.sin(angle) * reach,
+            latest.x + Math.cos(angle) * reach,
+            latest.y + Math.sin(angle) * reach,
             Math.cos(angle) * push + dx * 0.4,
             Math.sin(angle) * push + dy * 0.4,
-            pick(0.14, 0.06),
+            colour(0.13, (Math.random() - 0.5) * 0.04),
             0.12,
           );
         }
       }
-      previous = { x: e.clientX, y: e.clientY, t: now };
+      anchor = latest;
+    };
+
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return;
+      latest = { x: e.clientX, y: e.clientY };
+      anchor ??= latest;
+      if (!raf) raf = requestAnimationFrame(flush);
     };
 
     const onLeave = () => {
-      previous = null;
+      cancelAnimationFrame(raf);
+      raf = 0;
+      latest = null;
+      anchor = null;
     };
 
-    // Tap or click: a burst that throws dye outwards in every direction.
+    // Tap or click: a burst that throws dye outwards in every direction, one hue per spoke.
     const onDown = (e: PointerEvent) => {
       track(e.clientX, e.clientY, performance.now() + 1000);
       const spokes = 9;
@@ -138,10 +157,11 @@ export function FluidCursor() {
           e.clientY + Math.sin(angle) * 10,
           Math.cos(angle) * push,
           Math.sin(angle) * push,
-          pick(0.3, 0.11),
+          colour(0.3, i / spokes),
           0.22,
         );
       }
+      phase = (phase + 0.3) % 1;
     };
 
     const onResize = () => fluid.resize();
@@ -155,6 +175,7 @@ export function FluidCursor() {
       window.removeEventListener("pointerdown", onDown);
       document.removeEventListener("pointerleave", onLeave);
       window.removeEventListener("resize", onResize);
+      cancelAnimationFrame(raf);
       fluid.destroy();
     };
   }, []);
