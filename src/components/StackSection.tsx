@@ -12,6 +12,7 @@ const tones = [
   { box: "bg-primary-wash text-ink", hint: "text-ink-soft", chip: "border-ink/15 bg-white/70" },
   { box: "bg-primary-mid text-ink", hint: "text-ink-soft", chip: "border-ink/15 bg-white/55" },
   { box: "bg-primary text-white", hint: "text-white/85", chip: "border-white/35 bg-white/10" },
+  { box: "bg-primary-deep text-white", hint: "text-white/85", chip: "border-white/30 bg-white/10" },
 ] as const;
 
 export function StackSection() {

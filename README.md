@@ -15,7 +15,7 @@ Everything personal lives in one file: [`src/content/site.ts`](src/content/site.
 | `site`        | Name, role, intro, email, location, social links        |
 | `metrics`     | The four animated counters                              |
 | `pillars`     | The four capability rows (copy, bullets, tools)         |
-| `stackLayers` | Full-stack section: frontend / backend / data / platform |
+| `stackLayers` | Full-stack section: frontend / backend / data / integrations / platform |
 | `process`     | The four-step "how I work" row                          |
 | `projects`    | Selected work cards                                     |
 | `toolbelt`    | The "working set" chip row under the hero               |

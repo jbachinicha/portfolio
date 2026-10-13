@@ -99,12 +99,23 @@ export const stackLayers = [
   {
     label: "Frontend",
     hint: "Interfaces people actually enjoy using",
-    items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Vue", "React Native"],
+    items: [
+      "React",
+      "Next.js",
+      "Vue.js",
+      "AngularJS",
+      "TypeScript",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Tailwind CSS",
+      "React Native",
+    ],
   },
   {
     label: "Backend",
-    hint: "APIs, jobs and business logic",
-    items: ["Node.js", "Laravel / PHP", "Python", "Express", "REST", "GraphQL"],
+    hint: "Business logic, new builds and legacy upkeep",
+    items: ["Node.js", "Express", "PHP", "Laravel", "CakePHP", "Python", "WordPress"],
   },
   {
     label: "Data",
@@ -112,9 +123,24 @@ export const stackLayers = [
     items: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Prisma", "SQL"],
   },
   {
+    label: "Integrations",
+    hint: "Making separate systems behave as one",
+    items: ["REST", "GraphQL", "Webhooks", "OAuth 2.0", "Stripe", "Claude API"],
+  },
+  {
     label: "Platform",
-    hint: "Shipping it and keeping it up",
-    items: ["Docker", "GitHub Actions", "Vercel", "Linux / VPS", "Cloudflare", "Git"],
+    hint: "Automating it, shipping it and keeping it up",
+    items: [
+      "n8n",
+      "Playwright",
+      "Docker",
+      "GitHub Actions",
+      "Vercel",
+      "Linux / VPS",
+      "Cloudflare",
+      "Git",
+      "Jira",
+    ],
   },
 ] as const;
 
@@ -343,6 +369,19 @@ export type ToolSlug =
   | "javascript"
   | "html"
   | "css"
+  | "vue"
+  | "tailwind"
+  | "express"
+  | "cakephp"
+  | "wordpress"
+  | "mysql"
+  | "mongodb"
+  | "prisma"
+  | "githubactions"
+  | "vercel"
+  | "cloudflare"
+  | "git"
+  | "jira"
   | "nodejs"
   | "python"
   | "php"
@@ -379,13 +418,22 @@ export const heroLanguages: { name: string; slug: ToolSlug }[] = [
 
 export const toolbelt: { name: string; slug: ToolSlug }[] = [
   { name: "TypeScript", slug: "typescript" },
+  { name: "JavaScript", slug: "javascript" },
   { name: "Node.js", slug: "nodejs" },
+  { name: "Express", slug: "express" },
   { name: "Python", slug: "python" },
+  { name: "Laravel", slug: "laravel" },
+  { name: "CakePHP", slug: "cakephp" },
+  { name: "WordPress", slug: "wordpress" },
   { name: "Next.js", slug: "nextjs" },
   { name: "React", slug: "react" },
-  { name: "Laravel", slug: "laravel" },
+  { name: "Vue.js", slug: "vue" },
+  { name: "Tailwind CSS", slug: "tailwind" },
   { name: "PostgreSQL", slug: "postgresql" },
+  { name: "MySQL", slug: "mysql" },
+  { name: "MongoDB", slug: "mongodb" },
   { name: "Redis", slug: "redis" },
+  { name: "Prisma", slug: "prisma" },
   { name: "Claude API", slug: "claude" },
   { name: "n8n", slug: "n8n" },
   { name: "Playwright", slug: "playwright" },
@@ -393,4 +441,9 @@ export const toolbelt: { name: string; slug: ToolSlug }[] = [
   { name: "Webhooks", slug: "webhooks" },
   { name: "Stripe", slug: "stripe" },
   { name: "Docker", slug: "docker" },
+  { name: "GitHub Actions", slug: "githubactions" },
+  { name: "Vercel", slug: "vercel" },
+  { name: "Cloudflare", slug: "cloudflare" },
+  { name: "Git", slug: "git" },
+  { name: "Jira", slug: "jira" },
 ];

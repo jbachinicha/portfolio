@@ -1,22 +1,35 @@
 import {
+  siCakephp,
   siClaude,
+  siCloudflare,
   siCss,
   siDocker,
+  siExpress,
+  siGit,
+  siGithubactions,
   siGodotengine,
   siGraphql,
   siHtml5,
   siJavascript,
+  siJira,
   siLaravel,
+  siMongodb,
+  siMysql,
   siN8n,
   siNextdotjs,
   siNodedotjs,
   siPhp,
   siPostgresql,
+  siPrisma,
   siPython,
   siReact,
   siRedis,
   siStripe,
+  siTailwindcss,
   siTypescript,
+  siVercel,
+  siVuedotjs,
+  siWordpress,
 } from "simple-icons";
 import type { ToolSlug } from "@/content/site";
 
@@ -45,6 +58,19 @@ const brands = {
   javascript: siJavascript,
   html: siHtml5,
   css: siCss,
+  vue: siVuedotjs,
+  tailwind: siTailwindcss,
+  express: siExpress,
+  cakephp: siCakephp,
+  wordpress: siWordpress,
+  mysql: siMysql,
+  mongodb: siMongodb,
+  prisma: siPrisma,
+  githubactions: siGithubactions,
+  vercel: siVercel,
+  cloudflare: siCloudflare,
+  git: siGit,
+  jira: siJira,
   nodejs: siNodedotjs,
   python: siPython,
   php: siPhp,
@@ -61,9 +87,10 @@ const brands = {
   docker: siDocker,
 } as const;
 
-// React's brand cyan is too pale to read as a hover colour on paper.
+// React's cyan and JavaScript's yellow are too pale to read as a hover colour on paper.
 const tintOverrides: Partial<Record<ToolSlug, string>> = {
   react: "#149ECA",
+  javascript: "#B59F00",
 };
 
 /** The 24×24 path and brand hex (no `#`) for a slug, for callers that draw the mark themselves. */
