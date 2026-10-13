@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { Consent } from "@/components/Consent";
 import { site } from "@/content/site";
@@ -17,14 +17,6 @@ const bricolage = Bricolage_Grotesque({
 const instrument = Instrument_Sans({
   subsets: ["latin"],
   variable: "--font-instrument",
-  display: "swap",
-});
-
-// Only used inside the printed run sheet, where monospace is the content.
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex-mono",
   display: "swap",
 });
 
@@ -69,7 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bricolage.variable} ${instrument.variable} ${plexMono.variable}`}
+      className={`${bricolage.variable} ${instrument.variable}`}
     >
       <body className="antialiased">
         <Consent />

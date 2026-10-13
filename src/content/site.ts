@@ -340,8 +340,13 @@ export const scenes: Scene[] = [
 /** Slugs map to brand marks in `BrandIcon`. */
 export type ToolSlug =
   | "typescript"
+  | "javascript"
+  | "html"
+  | "css"
   | "nodejs"
   | "python"
+  | "php"
+  | "godot"
   | "nextjs"
   | "react"
   | "laravel"
@@ -354,6 +359,23 @@ export type ToolSlug =
   | "webhooks"
   | "stripe"
   | "docker";
+
+/**
+ * The languages built into the hero illustration, one block each. Edit, reorder
+ * or swap entries here; `HeroIllustration` lays out whatever is listed (up to
+ * eight). SQL has no brand mark of its own, so it borrows PostgreSQL's, and
+ * GDScript borrows Godot's.
+ */
+export const heroLanguages: { name: string; slug: ToolSlug }[] = [
+  { name: "TypeScript", slug: "typescript" },
+  { name: "JavaScript", slug: "javascript" },
+  { name: "HTML", slug: "html" },
+  { name: "CSS", slug: "css" },
+  { name: "Python", slug: "python" },
+  { name: "PHP", slug: "php" },
+  { name: "SQL", slug: "postgresql" },
+  { name: "GDScript", slug: "godot" },
+];
 
 export const toolbelt: { name: string; slug: ToolSlug }[] = [
   { name: "TypeScript", slug: "typescript" },

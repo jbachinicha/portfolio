@@ -1,43 +1,39 @@
 import { site } from "@/content/site";
-import { RunSheet } from "./RunSheet";
+import { HeroIllustration } from "./HeroIllustration";
 
 export function Hero() {
   return (
-    <section id="top" className="on-primary relative bg-primary pt-28 text-white sm:pt-36">
-      <div className="container-page">
-        <p className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[15px] text-white/85">
-          <span className="inline-flex items-center gap-2.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-mark" aria-hidden />
-            {site.availability}
-          </span>
-          <span>{site.location}</span>
-        </p>
+    <section id="top" className="on-primary relative bg-primary pt-28 pb-14 text-white sm:pt-36 lg:pb-20">
+      <div className="container-page grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:gap-6">
+        <div>
+          <p className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[15px] text-white/85">
+            <span className="inline-flex items-center gap-2.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-mark" aria-hidden />
+              {site.availability}
+            </span>
+            <span>{site.location}</span>
+          </p>
 
-        <h1 className="mt-7 text-[clamp(2.9rem,8.4vw,6.9rem)] leading-[0.93] font-extrabold tracking-[-0.042em]">
-          I turn manual work
-          <br />
-          into working software.
-        </h1>
+          <h1 className="mt-7 text-[clamp(2.9rem,6.4vw,5.6rem)] leading-[0.93] font-extrabold tracking-[-0.042em]">
+            I turn manual work
+            <br />
+            into working software.
+          </h1>
 
-        <div className="mt-12 grid items-start gap-14 lg:grid-cols-[1fr_32rem] lg:gap-16">
-          <div>
-            <p className="max-w-[34rem] text-[1.1875rem] leading-[1.6] text-white/90 text-pretty">
-              {site.intro}
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <a href="#contact" className="btn btn-mark">
-                Start a project
-              </a>
-              <a href="#capabilities" className="btn btn-ghost-light">
-                What I automate
-              </a>
-            </div>
-          </div>
-
-          <div className="-mb-20 lg:-mb-28">
-            <RunSheet />
+          <p className="mt-8 max-w-[34rem] text-[1.1875rem] leading-[1.6] text-white/90 text-pretty">
+            {site.intro}
+          </p>
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <a href="#contact" className="btn btn-mark">
+              Start a project
+            </a>
+            <a href="#capabilities" className="btn btn-ghost-light">
+              What I automate
+            </a>
           </div>
         </div>
+
+        <HeroIllustration className="mx-auto h-auto w-full max-w-[40rem] lg:max-w-none" />
       </div>
     </section>
   );

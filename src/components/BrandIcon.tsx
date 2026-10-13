@@ -1,11 +1,16 @@
 import {
   siClaude,
+  siCss,
   siDocker,
+  siGodotengine,
   siGraphql,
+  siHtml5,
+  siJavascript,
   siLaravel,
   siN8n,
   siNextdotjs,
   siNodedotjs,
+  siPhp,
   siPostgresql,
   siPython,
   siReact,
@@ -37,8 +42,13 @@ const custom: Record<"webhooks" | "playwright", Glyph> = {
 
 const brands = {
   typescript: siTypescript,
+  javascript: siJavascript,
+  html: siHtml5,
+  css: siCss,
   nodejs: siNodedotjs,
   python: siPython,
+  php: siPhp,
+  godot: siGodotengine,
   nextjs: siNextdotjs,
   react: siReact,
   laravel: siLaravel,
@@ -56,16 +66,19 @@ const tintOverrides: Partial<Record<ToolSlug, string>> = {
   react: "#149ECA",
 };
 
+/** The 24×24 path and brand hex (no `#`) for a slug, for callers that draw the mark themselves. */
+export function brandGlyph(slug: ToolSlug): { path: string; hex: string } {
+  return slug in brands ? brands[slug as keyof typeof brands] : custom[slug as keyof typeof custom];
+}
+
 export function brandColor(slug: ToolSlug): string {
   const override = tintOverrides[slug];
   if (override) return override;
-  const icon = slug in brands ? brands[slug as keyof typeof brands] : custom[slug as keyof typeof custom];
-  return `#${icon.hex}`;
+  return `#${brandGlyph(slug).hex}`;
 }
 
 export function BrandIcon({ slug, className }: { slug: ToolSlug; className?: string }) {
-  const icon =
-    slug in brands ? brands[slug as keyof typeof brands] : custom[slug as keyof typeof custom];
+  const icon = brandGlyph(slug);
   const isCustom = !(slug in brands);
 
   return (

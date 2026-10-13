@@ -23,12 +23,9 @@
 
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  --animate-print: print 1.3s cubic-bezier(0.3, 0.7, 0.2, 1) 0.15s backwards;
-  --animate-tick: tick 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
-  --animate-ink-in: ink-in 0.45s ease-out both;
-  --animate-sweep: sweep 0.55s cubic-bezier(0.5, 0, 0.2, 1) both;
+  --animate-drop: drop 0.8s cubic-bezier(0.2, 0.8, 0.3, 1.12) backwards;
+  --animate-bob: bob 5s ease-in-out infinite;
 
   --animate-queue: queue 4.8s ease-in-out infinite;
   --animate-grow: grow 4s ease-in-out infinite;
@@ -37,21 +34,14 @@
   --animate-orbit: orbit 28s linear infinite;
 }
 
-/* Hero run sheet: the page's one orchestrated moment. */
-@keyframes print {
-  from { clip-path: inset(0 0 100% 0); transform: translateY(-14px); }
-  to { clip-path: inset(0 0 0 0); transform: translateY(0); }
+/* Hero blocks: drop onto the stage one by one, then hover. */
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-48px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-@keyframes tick {
-  from { opacity: 0; transform: scale(0.4); }
-  to { opacity: 1; transform: scale(1); }
-}
-@keyframes ink-in {
-  from { color: var(--color-rule); }
-}
-@keyframes sweep {
-  from { background-size: 0% 0.74em; }
-  to { background-size: 100% 0.74em; }
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
 }
 
 /* Capability specimens: still at rest, alive on hover. */
