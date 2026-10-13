@@ -7,6 +7,7 @@ import { Process } from "@/components/Process";
 import { Projects } from "@/components/Projects";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import { SectionDivider } from "@/components/SectionDivider";
 import { site } from "@/content/site";
 
 const title = "Hire a Workflow Automation Developer";
@@ -38,10 +39,14 @@ export default function Hire() {
       <Nav variant="hire" />
       <main>
         <HireHero />
+        <SectionDivider from="primary" to="paper" shape="wave" layered />
         <Metrics />
+        <SectionDivider from="paper" to="sheet" shape="curve" />
         <Pillars />
         <Process />
+        <SectionDivider from="sheet" to="paper" shape="slant" />
         <Projects />
+        <SectionDivider from="paper" to="primary" shape="triangle" />
         <Contact
           title="Tell me the task nobody wants to do"
           lead="Send me the workflow: the spreadsheet, the inbox, the report, the ticket queue. I will tell you honestly whether it is worth automating, and what it would take."
