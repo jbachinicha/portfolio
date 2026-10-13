@@ -23,6 +23,35 @@ function pastel(strength = 0.2): Rgb {
   return [r * strength, g * strength, b * strength];
 }
 
+/** Warm, luminous tones that stay vivid on green. Kept to neighbouring hues so they do not blend to grey. */
+const GLOW: readonly Rgb[] = [
+  [0.97, 0.92, 0.29], // the site's highlighter yellow
+  [0.78, 0.97, 0.5], // lime
+  [0.55, 0.96, 0.74], // aqua mint
+  [1, 0.78, 0.35], // amber
+  [1, 0.96, 0.72], // cream
+];
+
+function glow(strength: number): Rgb {
+  const [r, g, b] = GLOW[Math.floor(Math.random() * GLOW.length)];
+  const k = strength * 1.6;
+  return [r * k, g * k, b * k];
+}
+
+/** Whether the visible background at a point is dark, found from the nearest painted ancestor. */
+function backdropIsDark(x: number, y: number): boolean {
+  let el = document.elementFromPoint(x, y);
+  while (el) {
+    const channels = getComputedStyle(el).backgroundColor.match(/[\d.]+/g);
+    if (channels && (channels.length < 4 || parseFloat(channels[3]) > 0.6)) {
+      const [r, g, b] = channels.map(Number);
+      return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 < 0.5;
+    }
+    el = el.parentElement;
+  }
+  return false;
+}
+
 /**
  * Pastel smoke that follows the mouse and bursts where you tap. Purely
  * decorative: it sits above the page without catching pointer events, does not
@@ -37,7 +66,17 @@ export function FluidCursor() {
     const fluid = createFluid(canvas);
     if (!fluid) return;
 
-    let color = pastel();
+    let dark = false;
+    let darkCheckedAt = 0;
+    // Hue changes every so often, and the palette follows whatever is underneath.
+    const pick = (strength = 0.2) => (dark ? glow(strength) : pastel(strength));
+    const track = (x: number, y: number, now: number) => {
+      if (now - darkCheckedAt < 100) return;
+      darkCheckedAt = now;
+      dark = backdropIsDark(x, y);
+    };
+
+    let color = pick();
     let colorTimer = 0;
     let previous: { x: number; y: number; t: number } | null = null;
 
@@ -45,9 +84,10 @@ export function FluidCursor() {
     const onMove = (e: PointerEvent) => {
       if (e.pointerType === "touch") return;
       const now = performance.now();
+      track(e.clientX, e.clientY, now);
       if (previous) {
         if (now - colorTimer > 140) {
-          color = pastel();
+          color = pick();
           colorTimer = now;
         }
         const dx = e.clientX - previous.x;
@@ -63,7 +103,7 @@ export function FluidCursor() {
             e.clientY + Math.sin(angle) * reach,
             Math.cos(angle) * push + dx * 0.4,
             Math.sin(angle) * push + dy * 0.4,
-            pastel(0.14),
+            pick(0.14),
             0.12,
           );
         }
@@ -77,6 +117,7 @@ export function FluidCursor() {
 
     // Tap or click: a burst that throws dye outwards in every direction.
     const onDown = (e: PointerEvent) => {
+      track(e.clientX, e.clientY, performance.now() + 1000);
       const spokes = 9;
       const offset = Math.random() * Math.PI;
       for (let i = 0; i < spokes; i++) {
@@ -87,7 +128,7 @@ export function FluidCursor() {
           e.clientY + Math.sin(angle) * 10,
           Math.cos(angle) * push,
           Math.sin(angle) * push,
-          pastel(0.3),
+          pick(0.3),
           0.22,
         );
       }
