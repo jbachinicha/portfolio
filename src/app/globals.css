@@ -119,7 +119,13 @@ h1, h2, h3 {
   --focus: var(--color-mark);
 }
 
+/*
+ * Page content sits above the fluid-cursor canvas (z-45) and below the nav (z-50),
+ * so the smoke drifts over each section's background but behind its text.
+ */
 @utility container-page {
+  position: relative;
+  z-index: 46;
   width: 100%;
   margin-inline: auto;
   max-width: 80rem;

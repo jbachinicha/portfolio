@@ -115,7 +115,7 @@ gtag('config', '${GA_ID}');`}
         <div
           role="region"
           aria-label="Analytics consent"
-          className="fixed inset-x-4 bottom-4 z-40 rounded-lg border bg-sheet p-5 text-ink shadow-[0_18px_40px_-18px_rgb(2_36_24/0.45)] sm:right-auto sm:w-[25rem]"
+          className="fixed inset-x-4 bottom-4 z-[48] rounded-lg border bg-sheet p-5 text-ink shadow-[0_18px_40px_-18px_rgb(2_36_24/0.45)] sm:right-auto sm:w-[25rem]"
         >
           <p className="text-[15px] leading-[1.55] text-ink-soft">
             I use Google Analytics to count visits. It sets cookies, and nothing loads unless you
