@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { site } from "@/content/site";
 import { HeroIllustration } from "./HeroIllustration";
 
@@ -16,21 +17,21 @@ export function Hero() {
           </p>
 
           <h1 className="mt-7 text-[clamp(2.9rem,6.4vw,5.6rem)] leading-[0.93] font-extrabold tracking-[-0.042em]">
-            I turn manual work
+            I build and
             <br />
-            into working software.
+            modernise web apps.
           </h1>
 
           <p className="mt-8 max-w-[34rem] text-[1.1875rem] leading-[1.6] text-white/90 text-pretty">
-            {site.intro}
+            {site.summary}
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <a href="#contact" className="btn btn-mark">
-              Start a project
+            <a href="#work" className="btn btn-mark">
+              See my work
             </a>
-            <a href="#capabilities" className="btn btn-ghost-light">
-              What I automate
-            </a>
+            <Link href="/hire/" className="btn btn-ghost-light">
+              Hire me
+            </Link>
           </div>
         </div>
 

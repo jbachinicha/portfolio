@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { site } from "@/content/site";
 import { CookieSettingsButton } from "./Consent";
 import { MailLink } from "./MailLink";
@@ -12,6 +13,12 @@ export function Footer() {
         </p>
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <Link href="/" className="transition-colors hover:text-mark">
+            Portfolio
+          </Link>
+          <Link href="/hire/" className="transition-colors hover:text-mark">
+            Hire me
+          </Link>
           {site.socials.map((s) => (
             <a
               key={s.label}

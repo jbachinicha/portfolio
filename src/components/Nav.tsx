@@ -1,18 +1,43 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { motion, useScroll, useSpring } from "motion/react";
 import { site } from "@/content/site";
 import { MailLink } from "./MailLink";
 
-const links = [
-  { href: "#capabilities", label: "Capabilities" },
-  { href: "#stack", label: "Stack" },
-  { href: "#process", label: "Process" },
-  { href: "#work", label: "Work" },
-  { href: "#in-progress", label: "In progress" },
-  { href: "#contact", label: "Contact" },
-];
+type Variant = "portfolio" | "hire";
+
+/**
+ * Same-page anchors are plain links; anything that leaves the page goes
+ * through `next/link` so the deploy's base path is applied.
+ */
+const config = {
+  portfolio: {
+    home: "#top",
+    links: [
+      { href: "#work", label: "Work" },
+      { href: "#stack", label: "Stack" },
+      { href: "#about", label: "About" },
+      { href: "#contact", label: "Contact" },
+    ],
+  },
+  hire: {
+    home: "/",
+    links: [
+      { href: "/", label: "Portfolio" },
+      { href: "#capabilities", label: "Capabilities" },
+      { href: "#process", label: "Process" },
+      { href: "#work", label: "Work" },
+      { href: "#contact", label: "Contact" },
+    ],
+  },
+} as const;
+
+function NavLink({ href, ...props }: React.ComponentProps<"a">) {
+  const target = String(href);
+  return target.startsWith("#") ? <a href={target} {...props} /> : <Link href={target} {...props} />;
+}
 
 /** Small ticked checkbox: the site's mark for "done". */
 function Mark({ className }: { className?: string }) {
@@ -31,7 +56,8 @@ function Mark({ className }: { className?: string }) {
   );
 }
 
-export function Nav() {
+export function Nav({ variant }: { variant: Variant }) {
+  const { home, links } = config[variant];
   // True while the primary-colour hero sits behind the bar.
   const [overHero, setOverHero] = useState(true);
   const [scrolled, setScrolled] = useState(false);
@@ -70,35 +96,50 @@ export function Nav() {
         }`}
       >
         <nav className="container-page flex h-16 items-center justify-between gap-6" aria-label="Main">
-          <a href="#top" className="flex items-center gap-2.5" aria-label={`${site.fullName}, back to top`}>
+          <NavLink
+            href={home}
+            className="flex items-center gap-2.5"
+            aria-label={variant === "hire" ? `${site.fullName}, portfolio home` : `${site.fullName}, back to top`}
+          >
             <Mark className={`h-5 w-5 ${light ? "text-mark" : "text-primary"}`} />
             <span className="font-display text-[1.05rem] font-bold tracking-[-0.02em]">{site.fullName}</span>
-          </a>
+          </NavLink>
 
           <ul className="hidden items-center gap-1 lg:flex">
             {links.map((l) => (
               <li key={l.href}>
-                <a
+                <NavLink
                   href={l.href}
                   className={`rounded-md px-3.5 py-2 text-[15px] font-medium transition-colors ${
                     light ? "text-white/85 hover:text-white" : "text-ink-soft hover:text-primary"
                   }`}
                 >
                   {l.label}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>
 
           <div className="flex items-center gap-2">
-            <MailLink
-              subject="Project enquiry"
-              className={`btn hidden !px-4 !py-2.5 !text-[14px] sm:inline-flex ${
-                light ? "btn-mark" : "btn-ink"
-              }`}
-            >
-              Let&apos;s talk
-            </MailLink>
+            {variant === "portfolio" ? (
+              <Link
+                href="/hire/"
+                className={`btn hidden !px-4 !py-2.5 !text-[14px] sm:inline-flex ${
+                  light ? "btn-mark" : "btn-ink"
+                }`}
+              >
+                Hire me
+              </Link>
+            ) : (
+              <MailLink
+                subject="Project enquiry"
+                className={`btn hidden !px-4 !py-2.5 !text-[14px] sm:inline-flex ${
+                  light ? "btn-mark" : "btn-ink"
+                }`}
+              >
+                Start a project
+              </MailLink>
+            )}
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
@@ -140,19 +181,25 @@ export function Nav() {
         <ul className="container-page flex flex-col py-2">
           {links.map((l) => (
             <li key={l.href}>
-              <a
+              <NavLink
                 href={l.href}
                 onClick={() => setOpen(false)}
                 className="block border-b py-4 text-lg font-medium text-ink"
               >
                 {l.label}
-              </a>
+              </NavLink>
             </li>
           ))}
           <li>
-            <MailLink subject="Project enquiry" className="btn btn-ink mt-5 mb-3 w-full">
-              Start a project
-            </MailLink>
+            {variant === "portfolio" ? (
+              <Link href="/hire/" onClick={() => setOpen(false)} className="btn btn-ink mt-5 mb-3 w-full">
+                Hire me
+              </Link>
+            ) : (
+              <MailLink subject="Project enquiry" className="btn btn-ink mt-5 mb-3 w-full">
+                Start a project
+              </MailLink>
+            )}
           </li>
         </ul>
       </div>

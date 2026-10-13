@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { projects } from "@/content/site";
 import { SectionHeading } from "./SectionHeading";
 
@@ -6,8 +7,8 @@ export function Projects() {
     <section id="work" className="scroll-mt-16 py-24 sm:py-32">
       <div className="container-page">
         <SectionHeading
-          title="Systems currently doing the boring work for someone"
-          lead="Client details stay private, so these are described by shape and outcome. Ask me and I will walk you through the architecture."
+          title="Builds that automate, report and connect"
+          lead="Three of my own builds, each one running. The portfolio has the screens and recordings for every one."
         />
 
         <div className="mt-16 border-t-[3px] border-ink">
@@ -25,6 +26,12 @@ export function Projects() {
                 <p className="mt-5 text-[15px] leading-snug text-muted">
                   <span className="font-semibold text-ink">Built with:</span> {p.stack.join(", ")}
                 </p>
+                <Link
+                  href={`/#${p.id}`}
+                  className="mt-4 inline-block text-[15px] font-semibold text-primary underline underline-offset-4 hover:text-primary-deep"
+                >
+                  See it running
+                </Link>
               </div>
 
               {/* Highlighter marks what the client got. */}

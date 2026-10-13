@@ -7,7 +7,7 @@ function BuildRow({ build }: { build: Build }) {
   const portrait = build.media.type === "video" && build.media.height > build.media.width;
 
   return (
-    <article className="grid gap-8 border-b py-12 lg:grid-cols-12 lg:gap-14 lg:py-14">
+    <article id={build.id} className="grid scroll-mt-16 gap-8 border-b py-12 lg:grid-cols-12 lg:gap-14 lg:py-14">
       <div className={portrait ? "lg:order-2 lg:col-span-8" : "lg:col-span-5"}>
         <p className="text-[15px] text-muted">{build.kind}</p>
         <h3 className="mt-2 text-[clamp(1.75rem,2.7vw,2.25rem)] leading-[1.05] font-bold tracking-[-0.03em]">
@@ -49,13 +49,13 @@ function BuildRow({ build }: { build: Build }) {
   );
 }
 
-export function InProgress() {
+export function Work() {
   return (
-    <section id="in-progress" className="scroll-mt-16 bg-sheet py-24 sm:py-32">
+    <section id="work" className="scroll-mt-16 bg-sheet py-24 sm:py-32">
       <div className="container-page">
         <SectionHeading
-          title="Software you can see working"
-          lead="Everything here runs. Click through the screens and press play to see how each one behaves. If one is close to what you need, tell me and I will show you how it would work for you."
+          title="Selected work"
+          lead="Everything here runs. Click through the screens and press play to see how each one behaves."
         />
 
         <div className="mt-16 border-t-[3px] border-ink">

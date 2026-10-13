@@ -56,7 +56,7 @@ export function Metrics() {
           ))}
         </div>
         <p className="mt-2 text-[14px] text-muted">
-          Indicative figures from client workflows. Happy to walk through the specifics.
+          Counted from my resume and the builds in my portfolio.
         </p>
       </div>
     </section>

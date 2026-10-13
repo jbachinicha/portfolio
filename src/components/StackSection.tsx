@@ -22,8 +22,8 @@ export function StackSection() {
         <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
           <div>
             <SectionHeading
-              title="Automation is only useful if someone can actually use it"
-              lead="So I build the whole thing: the interface people log into, the API behind it, the database underneath, and the deployment that keeps it running. One person, no hand-off gaps."
+              title="The whole path from screen to server"
+              lead="The interface people log into, the API behind it, the database underneath, and the deployment that keeps it running. These are the tools I use across all four."
             />
 
             <ul className="mt-10 grid max-w-[32rem] grid-cols-2 gap-x-8">

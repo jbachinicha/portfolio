@@ -1,7 +1,11 @@
 # Portfolio
 
-Personal site for a full-stack developer specialising in automation, report
-streamlining, AI customer support systems and tool integrations.
+Personal site for a full-stack developer. Two pages:
+
+- `/` is the **portfolio**: hero, selected work (with screens and recordings),
+  stack, about and experience, contact.
+- `/hire/` is the **client page**: the automation pitch, capabilities, process,
+  a few builds and a contact call to action.
 
 Built with **Next.js 16** (App Router, static export), **TypeScript**,
 **Tailwind CSS v4** and **Motion**. Deployed to **GitHub Pages**.
@@ -10,21 +14,25 @@ Built with **Next.js 16** (App Router, static export), **TypeScript**,
 
 Everything personal lives in one file: [`src/content/site.ts`](src/content/site.ts).
 
-| Export        | What it controls                                        |
-| ------------- | ------------------------------------------------------- |
-| `site`        | Name, role, intro, email, location, social links        |
-| `metrics`     | The four animated counters                              |
-| `pillars`     | The four capability rows (copy, bullets, tools)         |
-| `stackLayers` | Full-stack section: frontend / backend / data / integrations / platform |
-| `process`     | The four-step "how I work" row                          |
-| `projects`    | Selected work cards                                     |
-| `toolbelt`    | The "working set" chip row under the hero               |
-| `heroLanguages` | The language blocks built into the hero illustration (up to eight) |
+| Export          | What it controls                                                 | Page    |
+| --------------- | ---------------------------------------------------------------- | ------- |
+| `site`          | Name, role, intros (`summary` home, `intro` hire), links         | both    |
+| `inProgress`    | The builds shown with screens and recordings                     | `/`     |
+| `scenes`        | The small three.js scenes under the builds                       | `/`     |
+| `stackLayers`   | Stack section: frontend / backend / data / integrations / platform | `/`   |
+| `about`, `experience`, `education` | About and experience, from the resume          | `/`     |
+| `toolbelt`      | The icon row under the hero                                      | `/`     |
+| `heroLanguages` | The language blocks in the hero illustration (up to eight)       | `/`     |
+| `metrics`       | The four animated counters                                       | `/hire/` |
+| `pillars`       | The four capability rows (copy, bullets, tools)                  | `/hire/` |
+| `process`       | The four-step "how I work" row                                   | `/hire/` |
+| `projects`      | Three builds on the client page, derived from `inProgress`       | `/hire/` |
 
 > [!IMPORTANT]
-> The numbers in `metrics` and the three `projects` entries are **placeholders**.
-> Replace them with your real figures and real case studies before sharing the
-> site; the copy makes concrete claims that you should be able to back up.
+> The tool lists in `pillars` (Make, OpenAI, Zendesk / Intercom, Recharts, ETL,
+> Cron / Queues) are **not on the resume**. Keep only what you have actually used.
+> `metrics`, `about` and `experience` use only resume and site content; check
+> they are still true before sharing the site.
 
 ### Contact address
 

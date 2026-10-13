@@ -8,6 +8,10 @@ export const site = {
   fullName: "Jay B.",
   role: "Full-Stack Developer & Automation Engineer",
   tagline: "I turn manual work into working software.",
+  /** Portfolio (home) intro, from the resume summary. */
+  summary:
+    "Full-stack web developer with 7+ years of experience maintaining, modernising and extending web applications across legacy and modern stacks: WordPress, CakePHP, AngularJS, Vue.js, Laravel and Next.js. I fix what is broken, ship new features, and build my own tools on the side.",
+  /** Client page (/hire/) intro. */
   intro:
     "Full-stack web developer who specialises in automation, AI-assisted support and making disconnected tools behave like one product. I take the repetitive parts of a business (reports, tickets, hand-offs, data entry) and turn them into software that just runs.",
   location: "Philippines, working remotely worldwide",
@@ -21,11 +25,49 @@ export const site = {
 } as const;
 
 export const metrics = [
-  { value: 40, suffix: "h+", label: "Manual hours removed per month", sub: "across client workflows" },
-  { value: 25, suffix: "+", label: "Integrations shipped", sub: "APIs, webhooks, internal tools" },
-  { value: 90, suffix: "%", label: "Routine tickets auto-resolved", sub: "with human hand-off intact" },
-  { value: 6, suffix: "x", label: "Faster reporting cycles", sub: "from days to minutes" },
+  { value: 7, suffix: "+", label: "Years building web applications", sub: "legacy and modern stacks" },
+  { value: 49, suffix: "", label: "Locales of page content delivered", sub: "on a platform migration, checked against the originals" },
+  { value: 5, suffix: "", label: "Products built and running", sub: "see the portfolio for each one" },
+  { value: 8, suffix: "", label: "Sources merged into one feed", sub: "in my own job-search tool" },
 ] as const;
+
+/** From the resume. Keep to what it says. */
+export const about = {
+  heading: "Seven years of keeping web apps working, and building new ones",
+  body: [
+    "I work across legacy and modern stacks, diagnosing defects, delivering features and keeping production platforms stable, secure and user-friendly.",
+    "Outside work I build my own tools and games: a website builder, a point of sale, a job-search tool and a text-to-video pipeline.",
+  ],
+} as const;
+
+export const experience = [
+  {
+    org: "Forty Degrees Celsius Inc.",
+    period: "March 2023 – Present",
+    roles: ["Web Developer (May 2024 – Present)", "Frontend Developer (March 2023 – October 2024)"],
+    points: [
+      "Maintain and enhance production web applications with CakePHP, Vue.js, AngularJS, HTML and CSS.",
+      "Contribute to Nativecamp, an online English-conversation platform, migrating legacy CakePHP pages to Laravel (Blade) and React while preserving existing behaviour and visual fidelity.",
+      "Deliver multilingual page content across 49 locales and verify migrated pages against their legacy versions at desktop and mobile breakpoints.",
+      "Code reviews, GitHub Actions workflows and scheduled cron jobs.",
+    ],
+  },
+  {
+    org: "Proweaver, Cebu",
+    period: "April 2019 – March 2023",
+    roles: ["Web Programmer (May 2022 – March 2023)", "Web Developer III (April 2019 – May 2022)"],
+    points: [
+      "Maintained and enhanced the company's web application systems, and recommended technologies and frameworks to suit requirements.",
+      "Maintained and customised client WordPress websites, strengthened their security and removed malicious files from compromised sites.",
+    ],
+  },
+] as const;
+
+export const education = {
+  school: "Cebu Technological University",
+  degree: "Bachelor of Science in Information and Communications Technology",
+  period: "2014 – 2018",
+} as const;
 
 export type Pillar = {
   id: string;
@@ -164,33 +206,6 @@ export const process = [
     step: "4",
     title: "Harden and hand over",
     body: "Retries, alerting, docs and a dashboard so you can see it working. You own it: no black boxes, no vendor lock to me.",
-  },
-] as const;
-
-export const projects = [
-  {
-    title: "Ops reporting pipeline",
-    kind: "Reports streamlining",
-    summary:
-      "Replaced a two-day manual reporting cycle with a nightly pipeline that consolidates several source systems into one validated dashboard and emails a signed-off PDF before the team logs in.",
-    outcomes: ["~30h/month recovered", "Single source of truth", "Errors surfaced, not hidden"],
-    stack: ["Node.js", "PostgreSQL", "Sheets API", "Next.js"],
-  },
-  {
-    title: "AI first-line support desk",
-    kind: "AI customer support",
-    summary:
-      "A retrieval-grounded assistant that answers from live product documentation, tags and routes each conversation, and escalates to a human with a written summary of what was already tried.",
-    outcomes: ["Instant first response", "Majority of routine tickets closed", "Full audit trail"],
-    stack: ["Claude API", "Vector search", "Webhooks", "React"],
-  },
-  {
-    title: "Cross-tool sync layer",
-    kind: "Integrations",
-    summary:
-      "Middleware sitting between a storefront, a CRM and accounting, with idempotent syncs, replayable events and health checks, so an order entered once appears correctly everywhere.",
-    outcomes: ["No double entry", "Replayable on failure", "Alerts before customers notice"],
-    stack: ["TypeScript", "Redis", "OAuth 2.0", "Docker"],
   },
 ] as const;
 
@@ -341,6 +356,15 @@ export type Scene = {
   note?: string;
   video: { src: string; poster: string; width: number; height: number; label: string };
 };
+
+/**
+ * Builds featured on the client page. Derived from the real builds above so
+ * the two pages never disagree; each one links to its row in the portfolio.
+ */
+export const projects = (["jobhunt", "pointofsale", "parkour"] as const).map((id) => {
+  const b = inProgress.find((x) => x.id === id)!;
+  return { id: b.id, title: b.title, kind: b.kind, summary: b.summary, outcomes: b.working.slice(0, 3), stack: b.stack };
+});
 
 /** Small interactive three.js scenes, each one page. Recorded from the running scene. */
 export const scenes: Scene[] = [
