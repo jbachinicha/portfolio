@@ -17,7 +17,9 @@ export function Hero() {
             <span>{site.location}</span>
           </p>
 
-          <h1 className="mt-6 text-[clamp(2.9rem,6.4vw,5.6rem)] leading-[0.93] font-extrabold tracking-[-0.042em] lg:mt-7">
+          {/* Below the two-column layout the headline is sized to the screen, so its longest line
+            ("modernise") spans the full width instead of leaving a ragged right edge. */}
+          <h1 className="mt-6 text-[clamp(2.9rem,17vw,5.6rem)] leading-[0.93] font-extrabold tracking-[-0.042em] lg:mt-7 lg:text-[clamp(2.9rem,6.4vw,5.6rem)]">
             I build and
             <br />
             modernise
