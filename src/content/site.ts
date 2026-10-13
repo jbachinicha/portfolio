@@ -25,7 +25,7 @@ export const site = {
    * To clear the warning, create an app at developers.facebook.com, copy its App ID
    * here, and the tag is added to every page. Left empty, no tag is written.
    */
-  facebookAppId: "",
+  facebookAppId: "4692878100948571",
   // Contact address lives in src/lib/email.ts, stored reversed so scrapers
   // cannot lift it out of the exported HTML.
   socials: [
