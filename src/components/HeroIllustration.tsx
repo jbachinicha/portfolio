@@ -78,7 +78,7 @@ const slots = [
   { x: 290, y: 136, h: 12 },
 ] as const;
 
-function Blocks() {
+function Blocks({ flat = false }: { flat?: boolean }) {
   const tiles = heroLanguages.slice(0, slots.length).map((lang, i) => {
     const slot = slots[i];
     const { path, hex } = brandGlyph(lang.slug);
@@ -100,6 +100,16 @@ function Blocks() {
     <>
       {ordered.map(({ lang, slot, path, tones, k, tx, ty, cx, cy, ink, index }) => {
         const pill = lang.name.length * 6.8 + 20;
+        if (flat) {
+          return (
+            <g key={lang.slug}>
+              {box(slot.x, slot.y, STAGE.h, TILE, TILE, slot.h, tones).map((f, n) => (
+                <polygon key={n} points={f.points} fill={f.fill} stroke={f.fill} strokeWidth="1.4" strokeLinejoin="round" />
+              ))}
+              <path d={path} fill={ink} transform={`matrix(${COS * k} ${SIN * k} ${-COS * k} ${SIN * k} ${tx} ${ty})`} />
+            </g>
+          );
+        }
         return (
           <g key={lang.slug} className="animate-drop" style={{ animationDelay: `${0.25 + index * 0.1}s` }}>
             <g className="animate-bob" style={{ animationDelay: `${index * -0.7}s` }}>
@@ -178,13 +188,8 @@ const view = (() => {
   return { x: left - 6, y: top - 12, w: right - left + 12, h: bottom - top + 18 };
 })();
 
-export function HeroIllustration({ className }: { className?: string }) {
-  const names = heroLanguages.map((l) => l.name);
-  const label = `Isometric illustration of the initials JB standing on a stage, surrounded by blocks marked ${names
-    .slice(0, -1)
-    .join(", ")} and ${names.at(-1)}`;
-
-  const tileShadows = slots.slice(0, heroLanguages.length).map((s, i) => (
+function tileShadows() {
+  return slots.slice(0, heroLanguages.length).map((s, i) => (
     <polygon
       key={`t${i}`}
       points={sweepConvex(
@@ -201,6 +206,50 @@ export function HeroIllustration({ className }: { className?: string }) {
       fill={COLOR.stageShadow}
     />
   ));
+}
+
+/** Stage, ruling and the shadows cast on it: everything under the letters and blocks. */
+function Stage() {
+  return (
+    <>
+      <polygon points={sweepConvex(stageRing, 0, FIELD_SHADOW.x, FIELD_SHADOW.y)} fill={COLOR.fieldShadow} />
+      {box(0, 0, 0, STAGE.w, STAGE.d, STAGE.h, {
+        top: COLOR.stageTop,
+        left: COLOR.stageLeft,
+        right: COLOR.stageRight,
+      }).map((f, n) => (
+        <polygon key={n} points={f.points} fill={f.fill} stroke={f.fill} strokeWidth="1" strokeLinejoin="round" />
+      ))}
+      <path d={ruling} stroke={COLOR.stageLine} strokeOpacity="0.14" strokeWidth="1" fill="none" />
+      {[jRings, bRings]
+        .flatMap((rings) => sweep(rings[0], STAGE.h, LETTER_HEIGHT * 0.62, LETTER_HEIGHT * 0.2, 14))
+        .map((points, i) => (
+          <polygon key={`l${i}`} points={points} fill={COLOR.stageShadow} />
+        ))}
+      {tileShadows()}
+    </>
+  );
+}
+
+/**
+ * The same scene with no classes, animation or hover parts, for places that render plain
+ * SVG, such as the social share image.
+ */
+export function HeroSceneStatic({ width, height }: { width: number; height: number }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`}>
+      <Stage />
+      <Letters />
+      <Blocks flat />
+    </svg>
+  );
+}
+
+export function HeroIllustration({ className }: { className?: string }) {
+  const names = heroLanguages.map((l) => l.name);
+  const label = `Isometric illustration of the initials JB standing on a stage, surrounded by blocks marked ${names
+    .slice(0, -1)
+    .join(", ")} and ${names.at(-1)}`;
 
   return (
     <HeroParallax>
@@ -214,21 +263,7 @@ export function HeroIllustration({ className }: { className?: string }) {
         {/* Three depth layers, each shifting a little more with the cursor: the stage and its
             shadows, the letters, then the language blocks nearest the viewer. */}
         <g className="hero-layer" style={{ ["--k" as string]: 3 }} aria-hidden>
-          <polygon points={sweepConvex(stageRing, 0, FIELD_SHADOW.x, FIELD_SHADOW.y)} fill={COLOR.fieldShadow} />
-          {box(0, 0, 0, STAGE.w, STAGE.d, STAGE.h, {
-            top: COLOR.stageTop,
-            left: COLOR.stageLeft,
-            right: COLOR.stageRight,
-          }).map((f, n) => (
-            <polygon key={n} points={f.points} fill={f.fill} stroke={f.fill} strokeWidth="1" strokeLinejoin="round" />
-          ))}
-          <path d={ruling} stroke={COLOR.stageLine} strokeOpacity="0.14" strokeWidth="1" fill="none" />
-          {[jRings, bRings]
-            .flatMap((rings) => sweep(rings[0], STAGE.h, LETTER_HEIGHT * 0.62, LETTER_HEIGHT * 0.2, 14))
-            .map((points, i) => (
-              <polygon key={`l${i}`} points={points} fill={COLOR.stageShadow} />
-            ))}
-          {tileShadows}
+          <Stage />
         </g>
 
         <g className="hero-layer" style={{ ["--k" as string]: 7 }} aria-hidden>
