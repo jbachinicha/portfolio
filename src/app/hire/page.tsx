@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/hire/" },
   openGraph: {
     title: `${title} | ${site.fullName}`,
+    siteName: site.fullName,
     description,
     type: "website",
     url: "/hire/",

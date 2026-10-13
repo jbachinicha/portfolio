@@ -32,6 +32,7 @@ export const metadata: Metadata = {
   },
   description,
   keywords: [
+    site.fullName,
     "full stack developer",
     "automation engineer",
     "workflow automation",
@@ -43,6 +44,7 @@ export const metadata: Metadata = {
   authors: [{ name: site.fullName }],
   openGraph: {
     title: `${site.fullName} | ${site.role}`,
+    siteName: site.fullName,
     description,
     type: "website",
     url: "/",
@@ -56,6 +58,28 @@ export const metadata: Metadata = {
   },
 };
 
+// Tells search engines who the site is about, by full name. `alternateName` keeps the short form linked.
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.fullName,
+    alternateName: [site.short],
+    url: `${siteUrl}/`,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: site.fullName,
+    alternateName: site.short,
+    jobTitle: site.role,
+    url: `${siteUrl}/`,
+    image: `${siteUrl}/og.png`,
+    address: { "@type": "PostalAddress", addressCountry: "PH" },
+    sameAs: site.socials.map((s) => s.href),
+  },
+];
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -65,6 +89,11 @@ export default function RootLayout({
       className={`${archivo.variable} ${instrument.variable}`}
     >
       <body className="antialiased">
+        <script
+          type="application/ld+json"
+          // Escaped so no value can close the tag early.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
+        />
         <Consent />
         <FluidCursor />
         {children}

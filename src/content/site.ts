@@ -5,7 +5,10 @@
 
 export const site = {
   name: "Jay",
-  fullName: "Jay B.",
+  /** Shown in search results, link previews, the footer and the share image. */
+  fullName: "Jay Bachinicha",
+  /** The compact form used by the nav logo. */
+  short: "Jay B.",
   role: "Full-Stack Developer & Automation Engineer",
   tagline: "I turn manual work into working software.",
   /** Portfolio (home) intro, from the resume summary. */

@@ -102,7 +102,7 @@ export function Nav({ variant }: { variant: Variant }) {
             aria-label={variant === "hire" ? `${site.fullName}, portfolio home` : `${site.fullName}, back to top`}
           >
             <Mark className={`h-5 w-5 ${light ? "text-mark" : "text-primary"}`} />
-            <span className="font-display text-[1.05rem] font-bold tracking-[-0.02em]">{site.fullName}</span>
+            <span className="font-display text-[1.05rem] font-bold tracking-[-0.02em]">{site.short}</span>
           </NavLink>
 
           <ul className="hidden items-center gap-1 lg:flex">
