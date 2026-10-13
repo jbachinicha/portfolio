@@ -98,6 +98,16 @@ body {
   overflow-x: hidden;
 }
 
+/* Tailwind v4 resets buttons to the arrow; clickable things should show the hand. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="tab"],
+  summary {
+    cursor: pointer;
+  }
+}
+
 h1, h2, h3 {
   font-family: var(--font-display);
   text-wrap: balance;
