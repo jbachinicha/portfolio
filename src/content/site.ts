@@ -344,15 +344,6 @@ export const inProgress: Build[] = [
   },
 ];
 
-export type Scene = {
-  id: string;
-  title: string;
-  summary: string;
-  stack: string[];
-  note?: string;
-  video: { src: string; poster: string; width: number; height: number; label: string };
-};
-
 /** The builds that appear on the site. */
 export const shownBuilds = inProgress.filter((b) => !b.hidden);
 
@@ -377,27 +368,6 @@ export const metrics = [
   { value: 49, suffix: "", label: "Locales of page content delivered", sub: "on a platform migration, checked against the originals" },
   { value: shownBuilds.length, suffix: "", label: "Products built and running", sub: "see the portfolio for each one" },
   { value: 8, suffix: "", label: "Sources merged into one feed", sub: "in my own job-search tool" },
-];
-
-/** Small interactive three.js scenes, each one page. Recorded from the running scene. */
-export const scenes: Scene[] = [
-  {
-    id: "island",
-    title: "Pastel Island",
-    summary:
-      "A voxel island where a penguin, a rigged chicken, a rubber duck and a Mixamo character wander about, while a flock of birds circles overhead and lands in the trees.",
-    stack: ["Three.js", "glTF", "Skinned rigs", "Blender"],
-    video: { src: "work/island.mp4", poster: "work/island.jpg", width: 1120, height: 630, label: "Pastel Island scene" },
-  },
-  {
-    id: "timeline",
-    title: "Timeline Drive",
-    summary:
-      "Drive a little car down a winding pastel road lined with photo frames. Pull up to any frame and its date and caption fade in.",
-    stack: ["Three.js", "Rapier physics", "Vehicle controller"],
-    note: "Recorded with placeholder frames.",
-    video: { src: "work/timeline.mp4", poster: "work/timeline.jpg", width: 1120, height: 630, label: "Timeline Drive scene" },
-  },
 ];
 
 /** Slugs map to brand marks in `BrandIcon`. */

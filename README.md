@@ -18,7 +18,6 @@ Everything personal lives in one file: [`src/content/site.ts`](src/content/site.
 | --------------- | ---------------------------------------------------------------- | ------- |
 | `site`          | Name, role, intros (`summary` home, `intro` hire), links         | both    |
 | `inProgress`    | The builds with screens and recordings (`hidden: true` hides one) | `/`     |
-| `scenes`        | The small three.js scenes under the builds                       | `/`     |
 | `stackLayers`   | Stack section: frontend / backend / data / integrations / platform | `/`   |
 | `about`, `experience`, `education` | About and experience, from the resume          | `/`     |
 | `toolbelt`      | The icon row under the hero                                      | `/`     |

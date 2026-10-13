@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { scenes, shownBuilds, type Build } from "@/content/site";
+import { shownBuilds, type Build } from "@/content/site";
 import { SectionHeading } from "./SectionHeading";
 import { ShotTabs, VideoPlayer } from "./WorkMedia";
 
@@ -168,35 +168,6 @@ export function Work() {
           <div className="min-w-0">
             {shownBuilds.map((b) => (
               <BuildPanel key={b.id} build={b} active={b.id === activeId} />
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-24 border-t-[3px] border-ink pt-12">
-          <h3 className="text-[clamp(1.75rem,2.7vw,2.25rem)] leading-[1.05] font-bold tracking-[-0.03em]">
-            Interactive 3D scenes
-          </h3>
-          <p className="mt-4 max-w-[36rem] text-[1.0625rem] leading-[1.65] text-ink-soft text-pretty">
-            A growing collection of small three.js scenes, each one a single page.
-          </p>
-
-          <div
-            className={`mt-10 grid gap-6 md:gap-8 ${scenes.length > 2 ? "md:grid-cols-3" : "md:grid-cols-2"}`}
-          >
-            {scenes.map((scene) => (
-              <article key={scene.id} className="rounded-lg border bg-paper p-4 sm:p-5">
-                <VideoPlayer {...scene.video} />
-                <h4 className="mt-5 text-[1.35rem] leading-tight font-bold tracking-[-0.02em]">{scene.title}</h4>
-                <p className="mt-2 text-[1.0625rem] leading-[1.6] text-ink-soft text-pretty">{scene.summary}</p>
-                <ul className="mt-4 flex flex-wrap gap-2" aria-label="Built with">
-                  {scene.stack.map((s) => (
-                    <li key={s} className={chip}>
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-                {scene.note ? <p className="mt-3 text-[14px] text-muted">{scene.note}</p> : null}
-              </article>
             ))}
           </div>
         </div>
