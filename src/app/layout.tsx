@@ -23,6 +23,8 @@ const instrument = Instrument_Sans({
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
+const facebookAppId: string = site.facebookAppId;
+
 const description = `${site.role}. Automation, report streamlining, AI customer support systems and tool integrations.`;
 
 export const metadata: Metadata = {
@@ -44,6 +46,8 @@ export const metadata: Metadata = {
     "Next.js developer",
   ],
   authors: [{ name: site.fullName }],
+  // `fb:app_id`, only once an App ID is set in site.ts.
+  ...(facebookAppId ? { facebook: { appId: facebookAppId } } : {}),
   // Declared by hand so the .ico (for browsers and crawlers that skip SVG) is linked too.
   // Metadata icon URLs are not prefixed with the base path, so it is added here.
   icons: {

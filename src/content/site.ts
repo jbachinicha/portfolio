@@ -19,6 +19,13 @@ export const site = {
     "Full-stack web developer who specialises in automation, AI-assisted support and making disconnected tools behave like one product. I take the repetitive parts of a business (reports, tickets, hand-offs, data entry) and turn them into software that just runs.",
   location: "Philippines, working remotely worldwide",
   availability: "Open to new projects",
+  /**
+   * Optional. Facebook's Sharing Debugger warns that `fb:app_id` is missing; sharing
+   * works without it, and it is only needed for Facebook Insights on shared links.
+   * To clear the warning, create an app at developers.facebook.com, copy its App ID
+   * here, and the tag is added to every page. Left empty, no tag is written.
+   */
+  facebookAppId: "",
   // Contact address lives in src/lib/email.ts, stored reversed so scrapers
   // cannot lift it out of the exported HTML.
   socials: [
