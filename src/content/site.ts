@@ -29,7 +29,7 @@ export const site = {
   // Contact address lives in src/lib/email.ts, stored reversed so scrapers
   // cannot lift it out of the exported HTML.
   socials: [
-    { label: "GitHub", href: "https://github.com/FDC-Jay" },
+    { label: "GitHub", href: "https://github.com/jbachinicha" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/jay-bachinicha/" },
   ],
 } as const;
