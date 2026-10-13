@@ -2,15 +2,21 @@
  * A shaped seam between two sections: the lower section's colour rises into the upper
  * one along a wave, curve, slant or triangle. Purely decorative.
  *
- * Sections rarely end on a whole pixel, so a seam of background can show as a hairline.
- * The upper colour is drawn a little above the strip and the lower colour a little below
- * it, each overshooting into the section of the same colour, and the strip has no
- * background of its own.
+ * Sections rarely end on a whole pixel, and an SVG is painted with soft edges at its
+ * fractional position, which shows as a hairline against the next section. So the strip
+ * is a clipped box (boxes snap to whole pixels exactly as section backgrounds do) in the
+ * lower section's colour, and the SVG inside is a little taller than the box, so its own
+ * soft edges are cut off and never reach the seams.
  */
 
 export type Tone = "primary" | "paper" | "sheet";
 
 // Full class names, so Tailwind can see them.
+const background: Record<Tone, string> = {
+  primary: "bg-primary",
+  paper: "bg-paper",
+  sheet: "bg-sheet",
+};
 const fill: Record<Tone, string> = {
   primary: "fill-primary",
   paper: "fill-paper",
@@ -42,11 +48,14 @@ type Props = {
 
 export function SectionDivider({ from, to, shape, layered = false, flip = false }: Props) {
   return (
-    <div aria-hidden className="leading-[0]">
+    <div
+      aria-hidden
+      className={`${background[to]} relative h-8 overflow-hidden sm:h-12 lg:h-[4.5rem]`}
+    >
       <svg
         viewBox="0 0 1440 80"
         preserveAspectRatio="none"
-        className={`block h-8 w-full overflow-visible sm:h-12 lg:h-[4.5rem] ${flip ? "-scale-x-100" : ""}`}
+        className={`absolute inset-x-0 -top-px block h-[calc(100%+2px)] w-full ${flip ? "-scale-x-100" : ""}`}
       >
         <rect y="-6" width="1440" height="92" className={fill[from]} />
         {layered ? <path d={backWave} className={fill[to]} fillOpacity="0.28" /> : null}
