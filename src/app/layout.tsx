@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
+import { Archivo, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { Consent } from "@/components/Consent";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/siteUrl";
 
-// Headlines: a grotesque with ink traps that stays sturdy at poster sizes.
-const bricolage = Bricolage_Grotesque({
+// Headlines: a sturdy, neutral grotesque that holds up at poster sizes.
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-bricolage",
-  axes: ["opsz", "wdth"],
+  variable: "--font-archivo",
+  axes: ["wdth"],
   display: "swap",
 });
 
@@ -61,7 +61,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bricolage.variable} ${instrument.variable}`}
+      className={`${archivo.variable} ${instrument.variable}`}
     >
       <body className="antialiased">
         <Consent />

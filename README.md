@@ -122,7 +122,7 @@ Pages use build command `npm run build`, output directory `out`, and set
   Every colour is a token at the top of `src/app/globals.css`. To re-colour the
   whole site change the four `--color-primary*` values (and the matching hex
   values in `src/app/og.png/route.tsx` and `src/app/icon.svg`).
-- Fonts: Bricolage Grotesque (headlines) and Instrument Sans (body), both
+- Fonts: Archivo (headlines) and Instrument Sans (body), both
   self-hosted by `next/font`.
 - Google Analytics (GA4) lives in `src/components/Consent.tsx`. It loads only after a
   visitor clicks Accept on the consent banner (choice kept in localStorage under
