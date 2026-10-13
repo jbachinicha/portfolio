@@ -32,7 +32,7 @@ function BuildPanel({ build, active }: { build: Build; active: boolean }) {
           <VideoPlayer {...build.media} className={narrow} />
         )}
       </div>
-      <p className={`mt-3 text-[14px] text-muted ${narrow}`}>{build.note}</p>
+      {build.note ? <p className={`mt-3 text-[14px] text-muted ${narrow}`}>{build.note}</p> : null}
 
       <div className="mt-9 grid gap-9 md:grid-cols-2 md:gap-12">
         <div>
