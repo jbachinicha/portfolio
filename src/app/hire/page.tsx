@@ -9,6 +9,7 @@ import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { SectionDivider } from "@/components/SectionDivider";
 import { site } from "@/content/site";
+import { ogImagePath } from "@/lib/ogImage";
 
 const title = "Hire a Workflow Automation Developer";
 const description = `${site.fullName}, ${site.role}. Process automation, report streamlining, AI customer support systems and tool integrations for small teams.`;
@@ -23,13 +24,13 @@ export const metadata: Metadata = {
     description,
     type: "website",
     url: "/hire/",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: site.role }],
+    images: [{ url: ogImagePath, width: 1200, height: 630, alt: site.role }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${title} | ${site.fullName}`,
     description,
-    images: ["/og.png"],
+    images: [ogImagePath],
   },
 };
 

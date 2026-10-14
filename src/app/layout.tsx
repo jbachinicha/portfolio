@@ -4,6 +4,7 @@ import "./globals.css";
 import { Consent } from "@/components/Consent";
 import { FluidCursor } from "@/components/FluidCursor";
 import { site } from "@/content/site";
+import { ogImagePath } from "@/lib/ogImage";
 import { siteUrl } from "@/lib/siteUrl";
 
 // Headlines: a sturdy, neutral grotesque that holds up at poster sizes.
@@ -63,13 +64,13 @@ export const metadata: Metadata = {
     description,
     type: "website",
     url: "/",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: site.role }],
+    images: [{ url: ogImagePath, width: 1200, height: 630, alt: site.role }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.fullName} | ${site.role}`,
     description,
-    images: ["/og.png"],
+    images: [ogImagePath],
   },
 };
 
