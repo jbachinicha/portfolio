@@ -13,10 +13,10 @@ export const site = {
   tagline: "I turn manual work into working software.",
   /** Portfolio (home) intro, from the resume summary. */
   summary:
-    "Full-stack web developer with 7+ years of experience maintaining, modernising and extending web applications across legacy and modern stacks: WordPress, CakePHP, AngularJS, Vue.js, Laravel and Next.js. I fix what is broken, ship new features, and build my own tools on the side.",
+    "Full-stack web developer with 7+ years of experience maintaining, modernizing and extending web applications across legacy and modern stacks: WordPress, CakePHP, AngularJS, Vue.js, Laravel and Next.js. I fix what is broken, ship new features, and build my own tools on the side.",
   /** Client page (/hire/) intro. */
   intro:
-    "Full-stack web developer who specialises in automation, AI-assisted support and making disconnected tools behave like one product. I take the repetitive parts of a business (reports, tickets, hand-offs, data entry) and turn them into software that just runs.",
+    "Full-stack web developer who specializes in automation, AI-assisted support and making disconnected tools behave like one product. I take the repetitive parts of a business (reports, tickets, hand-offs, data entry) and turn them into software that just runs.",
   location: "Philippines, working remotely worldwide",
   availability: "Open to new projects",
   /**
@@ -50,7 +50,7 @@ export const experience = [
     roles: ["Web Developer (May 2024 – Present)", "Frontend Developer (March 2023 – October 2024)"],
     points: [
       "Maintain and enhance production web applications with CakePHP, Vue.js, AngularJS, HTML and CSS.",
-      "Contribute to Nativecamp, an online English-conversation platform, migrating legacy CakePHP pages to Laravel (Blade) and React while preserving existing behaviour and visual fidelity.",
+      "Contribute to Nativecamp, an online English-conversation platform, migrating legacy CakePHP pages to Laravel (Blade) and React while preserving existing behavior and visual fidelity.",
       "Deliver multilingual page content across 49 locales and verify migrated pages against their legacy versions at desktop and mobile breakpoints.",
       "Code reviews, GitHub Actions workflows and scheduled cron jobs.",
     ],
@@ -61,7 +61,7 @@ export const experience = [
     roles: ["Web Programmer (May 2022 – March 2023)", "Web Developer III (April 2019 – May 2022)"],
     points: [
       "Maintained and enhanced the company's web application systems, and recommended technologies and frameworks to suit requirements.",
-      "Maintained and customised client WordPress websites, strengthened their security and removed malicious files from compromised sites.",
+      "Maintained and customized client WordPress websites, strengthened their security and removed malicious files from compromised sites.",
     ],
   },
 ] as const;
@@ -247,11 +247,11 @@ export const inProgress: Build[] = [
     title: "Webeditor",
     kind: "Website and store builder",
     summary:
-      "A multi-tenant builder where each customer gets their own site on a subdomain and builds its pages from a library of sections. Nothing in the library assumes an industry: a restaurant, a law firm and a shop compose the same blocks and re-skin them with a theme.",
+      "A multi-tenant builder where each customer gets their own site on a subdomain and builds its pages from a library of sections. Nothing in the library assumes an industry: a restaurant, a law firm and a store compose the same blocks and re-skin them with a theme.",
     working: [
       "Add, reorder, hide and edit sections beside a live preview",
       "Desktop, tablet and phone previews, with page history and publish",
-      "One brand colour, a font pairing and a corner style, applied everywhere",
+      "One brand color, a font pairing and a corner style, applied everywhere",
       "A store built in: products, collections, orders and discounts",
     ],
     stack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Better Auth"],
@@ -260,7 +260,7 @@ export const inProgress: Build[] = [
       type: "shots",
       shots: [
         { src: "work/webeditor-editor.png", alt: "Webeditor page editor: a list of sections on the left, the selected hero section's fields in the middle and a live preview of the page on the right", width: 1440, height: 900, label: "Page editor" },
-        { src: "work/webeditor-theme.png", alt: "Webeditor theme screen: colour presets, brand colours and a live preview of the site", width: 1440, height: 900, label: "Theme" },
+        { src: "work/webeditor-theme.png", alt: "Webeditor theme screen: color presets, brand colors and a live preview of the site", width: 1440, height: 900, label: "Theme" },
       ],
     },
   },
@@ -269,7 +269,7 @@ export const inProgress: Build[] = [
     title: "Point of Sale",
     kind: "Retail checkout and stock system",
     summary:
-      "A web-based till for a small shop: search or scan a product, build a cart, take cash or card and print a receipt. Behind it sit stock levels, suppliers, shifts and the reports a shop owner asks for.",
+      "A web-based register for a small store: search or scan a product, build a cart, take cash or card and print a receipt. Behind it sit stock levels, suppliers, shifts and the reports a store owner asks for.",
     working: [
       "Checkout with product search, discounts and cash or card payment",
       "Stock levels with low-stock alerts and purchase orders to suppliers",

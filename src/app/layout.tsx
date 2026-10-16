@@ -101,7 +101,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="en"
+      lang="en-US"
       className={`${archivo.variable} ${instrument.variable}`}
     >
       <body className="antialiased">

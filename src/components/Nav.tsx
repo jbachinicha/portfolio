@@ -132,7 +132,7 @@ export function Nav({ variant }: { variant: Variant }) {
               </Link>
             ) : (
               <MailLink
-                subject="Project enquiry"
+                subject="Project inquiry"
                 className={`btn hidden !px-4 !py-2.5 !text-[14px] sm:inline-flex ${
                   light ? "btn-mark" : "btn-ink"
                 }`}
@@ -196,7 +196,7 @@ export function Nav({ variant }: { variant: Variant }) {
                 Hire me
               </Link>
             ) : (
-              <MailLink subject="Project enquiry" className="btn btn-ink mt-5 mb-3 w-full">
+              <MailLink subject="Project inquiry" className="btn btn-ink mt-5 mb-3 w-full">
                 Start a project
               </MailLink>
             )}

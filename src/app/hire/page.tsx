@@ -51,7 +51,7 @@ export default function Hire() {
         <Contact
           title="Tell me the task nobody wants to do"
           lead="Send me the workflow: the spreadsheet, the inbox, the report, the ticket queue. I will tell you honestly whether it is worth automating, and what it would take."
-          subject="Project enquiry"
+          subject="Project inquiry"
         />
       </main>
       <Footer />

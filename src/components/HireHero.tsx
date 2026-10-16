@@ -24,7 +24,7 @@ export function HireHero() {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-3">
-          <MailLink subject="Project enquiry" className="btn btn-mark">
+          <MailLink subject="Project inquiry" className="btn btn-mark">
             Start a project
           </MailLink>
           <a href="#capabilities" className="btn btn-ghost-light">

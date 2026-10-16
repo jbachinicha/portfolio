@@ -88,7 +88,7 @@ export async function GET() {
 
           <div style={{ display: "flex", flexDirection: "column", fontWeight: 800 }}>
             <div style={{ fontSize: 112, color: "#ffffff", lineHeight: 0.96, letterSpacing: -5 }}>I build and</div>
-            <div style={{ fontSize: 112, color: "#ffffff", lineHeight: 0.96, letterSpacing: -5 }}>modernise</div>
+            <div style={{ fontSize: 112, color: "#ffffff", lineHeight: 0.96, letterSpacing: -5 }}>modernize</div>
             <div style={{ fontSize: 112, color: "#ffffff", lineHeight: 0.96, letterSpacing: -5 }}>web apps.</div>
           </div>
 
